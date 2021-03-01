@@ -4,8 +4,6 @@ const exec = require('child_process').exec;
 const ora = require('ora');
 import { executeShellCommand } from '../utils';
 
-
-
 export default class CreateFrontend extends Command {
   static description = 'This command set up a project with your preferred packages and stuff'
 
@@ -13,13 +11,13 @@ export default class CreateFrontend extends Command {
   //   `$ Create Project Tempelate`,
   // ]
 
-  // static flags = {
-  //   help: flags.help({ char: 'h' }),
+ static flags = {
+     help: flags.help({ char: 'h' }),
   //   // flag with a value (-n, --name=VALUE)
   //   name: flags.string({ char: 'n', description: 'name to print' }),
   //   // flag with no value (-f, --force)
   //   force: flags.boolean({ char: 'f' }),
-  // }
+  }
 
   // static args = [{ name: 'file' }]
 
@@ -33,6 +31,7 @@ export default class CreateFrontend extends Command {
         choices: ['Javascript', 'Typescript'],
       },
       {
+        type: 'input',
         name: 'project-name',
         message: 'What is the name of your project?',
         required: true,
@@ -45,8 +44,20 @@ export default class CreateFrontend extends Command {
         required: true,
         default: true,
       },
-
     ])
+
+    let responses2: any = null;
+    if (responses['includeRedux']) {
+      responses2 = await prompt([
+      {
+        type: 'list',
+        name: 'reduxType',
+        message: 'Do you want vanilla Redux or Redux Toolkit:',
+        required: true,
+        choices: ['Redux', 'Redux Toolkit'],
+      },
+    ])
+    }
 
     let languageCommand: string = responses['language'] === 'Typescript' ? `npx create-react-app  ${responses['project-name']} --template typescript` : `npx create-react-app ${responses['project-name']}`;
 
