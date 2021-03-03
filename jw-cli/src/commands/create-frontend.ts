@@ -11,12 +11,12 @@ export default class CreateFrontend extends Command {
   //   `$ Create Project Tempelate`,
   // ]
 
- static flags = {
-     help: flags.help({ char: 'h' }),
-  //   // flag with a value (-n, --name=VALUE)
-  //   name: flags.string({ char: 'n', description: 'name to print' }),
-  //   // flag with no value (-f, --force)
-  //   force: flags.boolean({ char: 'f' }),
+  static flags = {
+    help: flags.help({ char: 'h' }),
+    //   // flag with a value (-n, --name=VALUE)
+    //   name: flags.string({ char: 'n', description: 'name to print' }),
+    //   // flag with no value (-f, --force)
+    //   force: flags.boolean({ char: 'f' }),
   }
 
   // static args = [{ name: 'file' }]
@@ -49,14 +49,14 @@ export default class CreateFrontend extends Command {
     let responses2: any = null;
     if (responses['includeRedux']) {
       responses2 = await prompt([
-      {
-        type: 'list',
-        name: 'reduxType',
-        message: 'Do you want vanilla Redux or Redux Toolkit:',
-        required: true,
-        choices: ['Redux', 'Redux Toolkit'],
-      },
-    ])
+        {
+          type: 'list',
+          name: 'reduxType',
+          message: 'Do you want vanilla Redux or Redux Toolkit:',
+          required: true,
+          choices: ['Redux', 'Redux Toolkit'],
+        },
+      ])
     }
 
     let languageCommand: string = responses['language'] === 'Typescript' ? `npx create-react-app  ${responses['project-name']} --template typescript` : `npx create-react-app ${responses['project-name']}`;
@@ -64,24 +64,7 @@ export default class CreateFrontend extends Command {
     let reduxCommand: string = responses['includeRedux'] ? `npm install react-redux` : '';
 
     console.log(await executeShellCommand(languageCommand, process.cwd()));
-    console.log(await executeShellCommand(reduxCommand, `${process.cwd()}/${responses['project-name']}`));
-   
-    
+    reduxCommand !== '' && console.log(await executeShellCommand(reduxCommand, `${process.cwd()}/${responses['project-name']}`));
 
-    
-    // executeShellCommand(languageCommand, process.cwd())
-    //   .then(async (res1: any) => {
-    //     console.log(res1)
-    //     executeShellCommand(reduxCommand, `${process.cwd()}/${responses['project-name']}`)
-    //       .then(async (res2: any) => {
-    //         console.log(res2)
-    //       })
-    //       .catch((err: any) => {
-    //         console.log(err.message)
-    //       })
-    //   })
-    //   .catch((err: any) => {
-    //     console.log(err.message)
-    //   })
   }
 }
