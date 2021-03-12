@@ -36,35 +36,42 @@ export default class CreateFrontend extends Command {
         message: 'What is the name of your project?',
         required: true,
       },
-
       {
+        type: 'list',
+        name: 'reduxType',
+        message: 'Do you want to include Redux?',
+        required: true,
+        choices: ['No', 'Redux', 'Redux Toolkit'],
+      }, 
+       {
         type: 'confirm',
-        name: 'includeRedux',
-        message: 'Do you want to include Redux for state handling?',
+        name: 'styledComponents',
+        message: 'Do you want to include styled-components?',
         required: true,
         default: true,
       },
     ])
+    let command: string = '';
+    const projectPath: string = process.cwd();
+    const insideProjectPath: string = `${process.cwd()}/${responses['project-name']}`;
 
-    let responses2: any = null;
-    if (responses['includeRedux']) {
-      responses2 = await prompt([
-        {
-          type: 'list',
-          name: 'reduxType',
-          message: 'Do you want vanilla Redux or Redux Toolkit:',
-          required: true,
-          choices: ['Redux', 'Redux Toolkit'],
-        },
-      ])
+    //Setup the project with Redux or Redux toolkit or neither 
+    if (responses['reduxType'] === 'Redux') {
+      command = responses['language'] === 'Typescript' ? `npx create-react-app ${responses['project-name']} --template typescript` : `npx create-react-app ${responses['project-name']}`;
+      console.log(await executeShellCommand(command, projectPath ));
+      command = `npm install react-redux`;
+      console.log(await executeShellCommand(command, insideProjectPath));
+    } else if (responses['reduxType'] === 'Redux Toolkit') {
+      command = responses['language'] === 'Typescript' ? `npx create-react-app ${responses['project-name']} --template redux-typescript` : `npx create-react-app ${responses['project-name']} --template redux`;
+      console.log(await executeShellCommand(command,  projectPath));
+    } else {
+      command = responses['language'] === 'Typescript' ? `npx create-react-app ${responses['project-name']} --template typescript` : `npx create-react-app ${responses['project-name']}`;
+      console.log(await executeShellCommand(command,  projectPath));
     }
 
-    let languageCommand: string = responses['language'] === 'Typescript' ? `npx create-react-app  ${responses['project-name']} --template typescript` : `npx create-react-app ${responses['project-name']}`;
-
-    let reduxCommand: string = responses['includeRedux'] ? `npm install react-redux` : '';
-
-    console.log(await executeShellCommand(languageCommand, process.cwd()));
-    reduxCommand !== '' && console.log(await executeShellCommand(reduxCommand, `${process.cwd()}/${responses['project-name']}`));
+    //Add styled-components 
+    command = responses['styledComponents'] ? 'npm install --save styled-components' : '';
+    console.log(await executeShellCommand(command, insideProjectPath));
 
   }
 }
