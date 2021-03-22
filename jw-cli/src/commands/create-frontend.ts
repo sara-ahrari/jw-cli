@@ -108,7 +108,7 @@ export default class CreateFrontend extends Command {
       huskyVersion = huskyVersionInput['huskyVersionInput'] === '' ? '' : `@${huskyVersionInput['huskyVersionInput']}`
     }
 
-    const projectName = projectNameInput['project-name']
+                                              const projectName = projectNameInput['project-name']
     let command: string = '';
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
