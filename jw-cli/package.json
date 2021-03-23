@@ -61,15 +61,5 @@
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"
   },
-  "types": "lib/index.d.ts",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*": [
-      "prettier --write"
-    ]
-  }
+  "types": "lib/index.d.ts"
 }

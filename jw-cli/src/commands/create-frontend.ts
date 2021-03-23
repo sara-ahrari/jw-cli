@@ -5,7 +5,7 @@ const ora = require('ora');
 import { executeShellCommand, editJsonFile } from '../utils';
 
 export default class CreateFrontend extends Command {
-  static description = 'This command set up a project with your preferred packages and stuff'
+  static description = 'This command sets up a project with your preferred packages and stuff'
 
   // static examples = [
   //   `$ Create Project Tempelate`,
@@ -22,120 +22,132 @@ export default class CreateFrontend extends Command {
   // static args = [{ name: 'file' }]
 
   async run() {
-    let language: any = await prompt([
+
+    //All variables
+    let projectName: string;
+    let programmingLanguage: string;
+    let reduxType: string;
+    let reduxVersion: string = '';
+    let includeStyledComponents: boolean;
+    let styledComponentsVersion: string = '';
+    let includeGitHooks: boolean;
+    let huskyVersion: string = '';
+
+
+    //First round of questions
+    let prompts1: any = await prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        message: 'What is the name of your project?',
+        required: true,
+      },
       {
         type: 'list',
-        name: 'language',
+        name: 'programmingLanguage',
         message: 'Please select the language you want to use in your React project:',
         required: true,
         choices: ['Javascript', 'Typescript'],
-      }])
-
-    let projectNameInput: any = await prompt([
-      {
-        type: 'input',
-        name: 'project-name',
-        message: 'What is the name of your project?',
-        required: true,
-      }
-    ])
-
-    let reduxType: any = await prompt([
+      },
       {
         type: 'list',
         name: 'reduxType',
-        message: 'Do you want to include Redux?',
+        message: 'Do you want to include Redux for state handling?',
         required: true,
         choices: ['No', 'Redux', 'Redux Toolkit'],
       }
     ])
 
-    let reduxVersion: string = ''
+    //Saving inputs from first round of prompts
+    projectName = prompts1.projectName;
+    programmingLanguage = prompts1.programmingLanguage;
+    reduxType = prompts1.reduxType;
 
-    if (reduxType['reduxType'] !== 'No') {
-      let reduxVersionInput: any = await prompt([
-        {
-          type: 'input',
-          name: 'reduxVersion',
-          message: `What type of ${reduxType['reduxType']} would you like? (You may skip for the latest version)`
-        }
-      ])
+    //If user wants to include redux, prompt the following and determine version
+    if (reduxType !== 'No') reduxVersion = await versionInputMethod(reduxType)
 
-      reduxVersion = reduxVersionInput['reduxVersion'] === '' ? reduxVersionInput['reduxVersion'] : `@${reduxVersionInput['reduxVersion']}`
-    }
+    includeStyledComponents = await includeTech('styled-components')
+    if (includeStyledComponents) styledComponentsVersion = await versionInputMethod('styled-components')
 
-    let styledComponents: any = await prompt([
-      {
-        type: 'confirm',
-        name: 'styledComponents',
-        message: 'Do you want to include styled-components?',
-        required: true,
-        default: true,
-      }
-    ])
+    includeGitHooks = await includeTech('Husky for git hooks')
+    if (includeGitHooks) huskyVersion = await versionInputMethod('Husky')
 
-    let styledComponentsVersion: string = ''
 
-    if (styledComponents['styledComponents']) {
-      let styledComponentsVersionInput: any = await prompt([
-        {
-          type: 'input',
-          name: 'styledComponentsVersion',
-          message: 'What version of styled-components would you like? (You may skip for the latest version)'
-        }
-      ])
-      styledComponentsVersion = styledComponentsVersionInput['styledComponentsVersion'] === '' ? '' : `@${styledComponentsVersionInput['styledComponentsVersion']}`
-    }
+    let reactCommand: string = ''
+    let installDependencyCommands: string[] = []
 
-    let gitHooks: any = await prompt([
-      {
-        type: 'confirm',
-        name: 'gitHooks',
-        message: 'Would you like to include git hooks in your project with Husky.js?'
-      }
-    ])
-
-    let huskyVersion: string = ''
-
-    if(gitHooks['gitHooks']){
-      let huskyVersionInput: any = await prompt([
-        {
-          type: 'input',
-          name: 'huskyVersionInput',
-          message: 'What version of husky would you like? (You may skip for the latest version)'
-        }
-      ])
-      huskyVersion = huskyVersionInput['huskyVersionInput'] === '' ? '' : `@${huskyVersionInput['huskyVersionInput']}`
-    }
-
-                                              const projectName = projectNameInput['project-name']
-    let command: string = '';
+    //Important paths
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
 
-    //Setup the project with Redux or Redux toolkit or neither 
-    if (reduxType['reduxType'] === 'Redux') {
-      command = language['language'] === 'Typescript' ? `npx create-react-app ${projectName} --template typescript` : `npx create-react-app ${projectName}`;
-      console.log(await executeShellCommand(command, projectPath));
-      command = `npm install react-redux${reduxVersion}`;
-      console.log(await executeShellCommand(command, insideProjectPath));
-    } else if (reduxType['reduxType'] === 'Redux Toolkit') {
-      command = language['language'] === 'Typescript' ? `npx create-react-app ${projectName} --template redux-typescript${reduxVersion}` : `npx create-react-app ${projectName} --template redux${reduxVersion}`;
-      console.log(await executeShellCommand(command, projectPath));
-    } else {
-      command = language['language'] === 'Typescript' ? `npx create-react-app ${projectName} --template typescript` : `npx create-react-app ${projectName}`;
-      console.log(await executeShellCommand(command, projectPath));
+    //Determine create-react-app command 
+    switch (reduxType) {
+      case 'Redux': {
+        reactCommand = programmingLanguage === 'Typescript' ? `npx create-react-app ${projectName} --template typescript` : `npx create-react-app ${projectName}`;
+        installDependencyCommands.push(`npm install react-redux${reduxVersion}`);
+        break;
+      }
+
+      case 'Redux Toolkit': {
+        reactCommand = programmingLanguage === 'Typescript' ? `npx create-react-app ${projectName} --template redux-typescript${reduxVersion}` : `npx create-react-app ${projectName} --template redux${reduxVersion}`;
+        break;
+      }
+
+      case 'No': {
+        reactCommand = programmingLanguage === 'Typescript' ? `npx create-react-app ${projectName} --template typescript` : `npx create-react-app ${projectName}`;
+        break;
+      }
+      default: break;
     }
 
-    if (styledComponents['styledComponents']) {
-      command = language['language'] === 'Typescript' ? `npm install --save @types/styled-components${styledComponentsVersion}` : `npm install --save styled-components${styledComponentsVersion}`;
-      console.log(await executeShellCommand(command, insideProjectPath));
+
+    //Run create-react-app with config
+    console.log(await executeShellCommand(reactCommand, projectPath))
+
+    if (includeStyledComponents) {
+      let command =  programmingLanguage === 'Typescript' ? `npm install --save @types/styled-components${styledComponentsVersion}` : `npm install --save styled-components${styledComponentsVersion}`;
+      installDependencyCommands.push(command)
     }
 
-    if(gitHooks['gitHooks']){
-      command = `npm install husky${huskyVersion}`
+    if (includeGitHooks) {
+      let command = `npm install husky${huskyVersion}`
+      installDependencyCommands.push(command)
       await editJsonFile(`${insideProjectPath}/package.json`)
-      console.log(await executeShellCommand(command, insideProjectPath));
     }
+
+    //Install all dependencies
+    installDependencyCommands.forEach(async command => {
+      console.log(await executeShellCommand(command, insideProjectPath))
+    })
   }
+}
+
+// --- HELPER METHODS ---
+//Helper method for getting versions for various technologies
+const versionInputMethod = async (technology: string) => {
+  let input: any = await prompt([
+    {
+      type: 'input',
+      name: 'version',
+      message: `What version of ${technology} would you like? (Leave blank for latest version)`
+    }
+  ])
+
+  let res = input.version === '' ? '' : `@${input.version}`
+  return res
+}
+
+//Helper method for checking if user wants to include a specific technology
+const includeTech = async (technology: string) => {
+  let input: any = await prompt([
+    {
+      type: 'confirm',
+      name: 'include',
+      message: `Would you like to include ${technology} in your project?`,
+      default: true
+    }
+  ])
+
+  let res = input.include
+  return res;
 }
