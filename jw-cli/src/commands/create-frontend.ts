@@ -110,7 +110,7 @@ export default class CreateFrontend extends Command {
     }
 
     if (includeGitHooks) {
-      let command = `npm install husky${huskyVersion}`
+      let command = `npm install --save-dev lint-staged husky${huskyVersion}`
       installDependencyCommands.push(command)
       
       let input = [
@@ -126,7 +126,7 @@ export default class CreateFrontend extends Command {
         }
       ]
 
-      await editJsonFile(`${projectPath}/package.json`, ["husky", "lint-staged"], input)
+      await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"], input)
     }
 
     //Install all dependencies
