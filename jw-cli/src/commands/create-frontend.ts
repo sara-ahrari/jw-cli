@@ -105,14 +105,28 @@ export default class CreateFrontend extends Command {
     console.log(await executeShellCommand(reactCommand, projectPath))
 
     if (includeStyledComponents) {
-      let command =  programmingLanguage === 'Typescript' ? `npm install --save @types/styled-components${styledComponentsVersion}` : `npm install --save styled-components${styledComponentsVersion}`;
+      let command = programmingLanguage === 'Typescript' ? `npm install --save @types/styled-components${styledComponentsVersion}` : `npm install --save styled-components${styledComponentsVersion}`;
       installDependencyCommands.push(command)
     }
 
     if (includeGitHooks) {
       let command = `npm install husky${huskyVersion}`
       installDependencyCommands.push(command)
-      await editJsonFile(`${insideProjectPath}/package.json`)
+      
+      let input = [
+        {
+          "hooks": {
+            "pre-commit": "lint-staged"
+          }
+        },
+        {
+          "lint-staged": {
+            "*": "prettier --write"
+          }
+        }
+      ]
+
+      await editJsonFile(`${projectPath}/package.json`, ["husky", "lint-staged"], input)
     }
 
     //Install all dependencies

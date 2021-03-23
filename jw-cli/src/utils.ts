@@ -18,26 +18,17 @@ export const executeShellCommand = async (cmd: string, path: string) => {
   });
 }
 
-export const editJsonFile = async (path: string) => {
-  let hooksToAdd = {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  }
-
-  let lintStagedToAdd = {
-    "*": [
-      "prettier --write"
-    ]
-  }
+export const editJsonFile = async (path: string, keys: string[], values: {}[]) => {
 
   fs.readFile(path, (err: any, data: any) => {
     let parsedJSON = JSON.parse(data)
-    parsedJSON["husky"] = hooksToAdd
-    parsedJSON["lint-staged"] = lintStagedToAdd
+    
+    keys.forEach((key, i) => {
+      parsedJSON[key] = values[i]
+    })
 
     fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
-
+      //Do something with callback
     })
   })
 }
