@@ -73,7 +73,7 @@ export default class CreateFrontend extends Command {
 
     includeGitHooks = await includeTech('Husky for git hooks')
     if (includeGitHooks) huskyVersion = await versionInputMethod('Husky')
-    
+
     //Important paths
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
@@ -98,17 +98,16 @@ export default class CreateFrontend extends Command {
       default: break;
     }
 
-
     //Run create-react-app with config
     console.log(await executeShellCommand(reactCommand, projectPath))
 
     if (includeStyledComponents) {
-      let command = programmingLanguage === 'Typescript' ? `npm install --save @types/styled-components${styledComponentsVersion}` : `npm install --save styled-components${styledComponentsVersion}`;
-      installDependencyCommands.push(command)
+      let command: string =`npm install --save styled-components${styledComponentsVersion}`;
+      installDependencyCommands.push(command);
     }
 
     if (includeGitHooks) {
-      let command = `npm install --save-dev lint-staged husky${huskyVersion}`
+      let command: string = `npm install --save-dev lint-staged husky${huskyVersion}`
       installDependencyCommands.push(command)
       
       let input = [
@@ -124,7 +123,7 @@ export default class CreateFrontend extends Command {
         }
       ]
 
-      await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"], input)
+     await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"], input)
     }
 
     //Install all dependencies
