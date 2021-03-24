@@ -1,5 +1,6 @@
 const exec = require('child_process').exec;
 const fs = require('fs');
+const resourcePath = require('path');
 
 export const executeShellCommand = async (cmd: string, path: string) => {
   return new Promise((resolve, reject) => {
@@ -18,17 +19,26 @@ export const executeShellCommand = async (cmd: string, path: string) => {
   });
 }
 
-export const editJsonFile = async (path: string, keys: string[], values: {}[]) => {
+export const editJsonFile = async (path: string, keys: string[]) => {
+
 
   fs.readFile(path, (err: any, data: any) => {
     let parsedJSON = JSON.parse(data)
-    
-    keys.forEach((key, i) => {
-      parsedJSON[key] = values[i]
+    keys.forEach((key) => {
+      const configTemplatePath = resourcePath.resolve(__dirname, `./resources/${key}`)
+
+      fs.readFile(configTemplatePath, "utf8", (err: any, jsonString: string) => {
+        if (err) {
+          console.log("File read failed:", err)
+          return
+        }
+        parsedJSON[key] = JSON.parse(jsonString);
+        fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
+          //Do something with callback
+        })
+      })
     })
 
-    fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
-      //Do something with callback
-    })
+
   })
 }

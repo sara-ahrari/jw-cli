@@ -110,27 +110,15 @@ export default class CreateFrontend extends Command {
       let command: string = `npm install --save-dev lint-staged husky${huskyVersion}`
       installDependencyCommands.push(command)
       
-      let input = [
-        {
-          "hooks": {
-            "pre-commit": "lint-staged"
-          }
-        },
-        {
-          "lint-staged": {
-            "*": "prettier --write"
-          }
-        }
-      ]
-
-     await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"], input)
+        await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]
+        )
     }
 
     //Install all dependencies
     installDependencyCommands.forEach(async command => {
       console.log(await executeShellCommand(command, insideProjectPath))
     })
-  }
+ }
 }
 
 // --- HELPER METHODS ---
