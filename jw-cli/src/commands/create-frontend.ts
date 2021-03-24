@@ -32,6 +32,8 @@ export default class CreateFrontend extends Command {
     let styledComponentsVersion: string = '';
     let includeGitHooks: boolean;
     let huskyVersion: string = '';
+    let reactCommand: string = ''
+    let installDependencyCommands: string[] = []
 
 
     //First round of questions
@@ -71,11 +73,7 @@ export default class CreateFrontend extends Command {
 
     includeGitHooks = await includeTech('Husky for git hooks')
     if (includeGitHooks) huskyVersion = await versionInputMethod('Husky')
-
-
-    let reactCommand: string = ''
-    let installDependencyCommands: string[] = []
-
+    
     //Important paths
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
@@ -161,7 +159,5 @@ const includeTech = async (technology: string) => {
       default: true
     }
   ])
-
-  let res = input.include
-  return res;
+  return input.include;
 }
