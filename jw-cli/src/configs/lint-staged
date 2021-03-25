@@ -1,5 +1,5 @@
 {
     "*": [
-        "prettier --write"
+        "prettier --config .prettierrc 'src/**/*.{js, ts, tsx, jsx}' --write"
     ]
 }

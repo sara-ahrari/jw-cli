@@ -122,7 +122,6 @@ export default class CreateFrontend extends Command {
       const touchCommand: string = `touch .prettierignore .prettierrc`;
       await executeShellCommand(touchCommand, insideProjectPath)
 
-
       await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]);
     }
   }
