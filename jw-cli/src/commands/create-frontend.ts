@@ -30,47 +30,40 @@ export default class CreateFrontend extends Command {
     let reduxVersion: string = '';
     let includeStyledComponents: boolean;
     let styledComponentsVersion: string = '';
+    let includeLinting: boolean;
+    let includeFormatting: boolean;
+    let lintingStyle: string = '';
     let includeGitHooks: boolean;
-    let huskyVersion: string = '';
     let reactCommand: string = ''
-    let installDependencyCommands: string[] = []
-
 
     //First round of questions
-    let prompts1: any = await prompt([
+    let responses: any = await prompt([
       {
         type: 'input',
         name: 'projectName',
-        message: 'What is the name of your project?',
+        message: 'What is the name of your React project?',
         required: true,
       },
       {
         type: 'list',
         name: 'programmingLanguage',
-        message: 'Please select the language you want to use in your React project:',
+        message: 'Please select the language you would like to use in your React project: ',
         required: true,
         choices: ['Javascript', 'Typescript'],
       },
       {
         type: 'list',
         name: 'reduxType',
-        message: 'Do you want to include Redux for state handling?',
+        message: 'Would you like to include Redux for state handling?',
         required: true,
         choices: ['No', 'Redux', 'Redux Toolkit'],
-      },
-      {
-        type: 'list',
-        name: 'linter',
-        message: 'Do you want to include linter?',
-        required: true,
-        choices: ['No', 'eslint+prettier', 'eslint+airbnb', 'eslint+standard'],
       }
     ])
 
     //Saving inputs from first round of prompts
-    projectName = prompts1.projectName;
-    programmingLanguage = prompts1.programmingLanguage;
-    reduxType = prompts1.reduxType;
+    projectName = responses.projectName;
+    programmingLanguage = responses.programmingLanguage;
+    reduxType = responses.reduxType;
 
     //If user wants to include redux, prompt the following and determine version
     if (reduxType !== 'No') reduxVersion = await versionInputMethod(reduxType)
@@ -78,7 +71,31 @@ export default class CreateFrontend extends Command {
     includeStyledComponents = await includeTech('styled-components')
     if (includeStyledComponents) styledComponentsVersion = await versionInputMethod('styled-components')
 
-    includeGitHooks = await includeTech('Husky for git hooks')
+    responses = await prompt([{
+      type: 'list',
+      name: 'lintingOrFormatting',
+      message: 'Please select option for linting and formatting: ',
+      choices: ['Eslint + Prettier', 'Eslint', 'Prettier', 'None']
+    }])
+
+    let lintingOrFormatting: string = responses.lintingOrFormatting.split(' + ')
+
+    includeLinting = lintingOrFormatting.includes('Eslint')
+    includeFormatting = lintingOrFormatting.includes('Prettier')
+
+    if (includeLinting) {
+      responses = await prompt([{
+        type: 'list',
+        name: 'eslintStyleGuide',
+        message: 'Please select a style guide for Eslint: ',
+        choices: ['standard', 'airbnb', 'google']
+      }])
+
+      lintingStyle = responses.eslintStyleGuide
+    }
+
+
+    includeGitHooks = includeLinting || includeFormatting ? await includeTech('pre-commit hooks (Husky.js)') : false
 
     //Important paths
     const projectPath: string = process.cwd();
@@ -115,6 +132,22 @@ export default class CreateFrontend extends Command {
       await executeShellCommand(installCommand, insideProjectPath)
     }
 
+   
+
+    const lintingStyleDict: {[key: string]: (param: boolean) => void;} = {
+      standard: standardSetup,
+      airbnb: airbnbSetup,
+      google: googleSetup
+    }
+
+    if(includeLinting){
+      lintingStyleDict[lintingStyle](includeFormatting);
+    } else {
+      if(includeFormatting){
+        prettierSetupOnly();
+      }
+    }
+
     if (includeGitHooks) {
       installCommand = `npm install --save-dev lint-staged husky@4.3.8 prettier`;
       await executeShellCommand(installCommand, insideProjectPath)
@@ -129,6 +162,27 @@ export default class CreateFrontend extends Command {
 
 // --- HELPER METHODS ---
 //Helper method for getting versions for various technologies
+const standardSetup = (formatting: boolean) => {
+  //Function for setting up eslint standard + prettier
+  formatting ? console.log('Setting up Eslint Standard + Prettier') : console.log('Setting up Eslint Standard')
+}
+
+
+const airbnbSetup = (formatting: boolean) => {
+  //Function for setting up eslint airbnb + prettier
+  formatting ? console.log('Setting up Eslint Airbnb + Prettier') : console.log('Setting up Eslint Airbnb')
+}
+
+
+const googleSetup = (formatting: boolean) => {
+  //Function for setting up eslint google + prettier
+  formatting ? console.log('Setting up Eslint Google + Prettier') : console.log('Setting up Eslint Google')
+}
+
+const prettierSetupOnly = () => {
+  //Function for setting up prettier only
+  console.log('Setting up Prettier only')
+}
 
 const versionInputMethod = async (technology: string) => {
   let input: any = await prompt([
