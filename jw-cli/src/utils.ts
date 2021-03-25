@@ -21,7 +21,6 @@ export const executeShellCommand = async (cmd: string, path: string) => {
 
 export const editJsonFile = async (path: string, keys: string[]) => {
 
-
   fs.readFile(path, (err: any, data: any) => {
     let parsedJSON = JSON.parse(data)
     keys.forEach((key) => {
@@ -38,7 +37,5 @@ export const editJsonFile = async (path: string, keys: string[]) => {
         })
       })
     })
-
-
   })
 }

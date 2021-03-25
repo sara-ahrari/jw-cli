@@ -1,4 +1,5 @@
-  
 {
- "*": "prettier --write"
+    "*": [
+        "prettier --write"
+    ]
 }

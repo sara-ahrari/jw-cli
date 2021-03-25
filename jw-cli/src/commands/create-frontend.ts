@@ -83,12 +83,13 @@ export default class CreateFrontend extends Command {
     //Important paths
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
+    let installCommand: string = ''
 
     //Determine create-react-app command 
     switch (reduxType) {
       case 'Redux': {
         reactCommand = programmingLanguage === 'Typescript' ? `npx create-react-app ${projectName} --template typescript` : `npx create-react-app ${projectName}`;
-        installDependencyCommands.push(`npm install react-redux${reduxVersion}`);
+        installCommand = `npm install react-redux${reduxVersion}`
         break;
       }
 
@@ -105,31 +106,31 @@ export default class CreateFrontend extends Command {
     }
 
     //Run create-react-app with config
-    console.log(await executeShellCommand(reactCommand, projectPath));
+    await executeShellCommand(reactCommand, projectPath)
+
+    installCommand !== '' && await executeShellCommand(installCommand, insideProjectPath)
 
     if (includeStyledComponents) {
-      let command: string =`npm install --save styled-components${styledComponentsVersion}`;
-      installDependencyCommands.push(command);
+      installCommand = `npm install --save styled-components${styledComponentsVersion}`;
+      await executeShellCommand(installCommand, insideProjectPath)
     }
 
     if (includeGitHooks) {
-      let command: string = `npm install --save-dev lint-staged husky@4.3.8 prettier`;
-      installDependencyCommands.push(command);
-      command = `touch .prettierignore .prettierrc`;
-      installDependencyCommands.push(command);
-      
-        await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]);
-    }
+      installCommand = `npm install --save-dev lint-staged husky@4.3.8 prettier`;
+      await executeShellCommand(installCommand, insideProjectPath)
 
-    //Install all dependencies
-    installDependencyCommands.forEach(async command => {
-      console.log(await executeShellCommand(command, insideProjectPath))
-    })
- }
+      const touchCommand: string = `touch .prettierignore .prettierrc`;
+      await executeShellCommand(touchCommand, insideProjectPath)
+
+
+      await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]);
+    }
+  }
 }
 
 // --- HELPER METHODS ---
 //Helper method for getting versions for various technologies
+
 const versionInputMethod = async (technology: string) => {
   let input: any = await prompt([
     {
