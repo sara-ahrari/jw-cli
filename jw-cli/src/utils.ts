@@ -1,6 +1,6 @@
 const exec = require('child_process').exec;
 const fs = require('fs');
-const resourcePath = require('path');
+const configPath = require('path');
 
 export const executeShellCommand = async (cmd: string, path: string) => {
   return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ export const editJsonFile = async (path: string, keys: string[]) => {
   fs.readFile(path, (err: any, data: any) => {
     let parsedJSON = JSON.parse(data)
     keys.forEach((key) => {
-      const configTemplatePath = resourcePath.resolve(__dirname, `./resources/${key}`)
+      const configTemplatePath = configPath.resolve(__dirname, `./configs/${key}`)
 
       fs.readFile(configTemplatePath, "utf8", (err: any, jsonString: string) => {
         if (err) {

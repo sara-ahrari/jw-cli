@@ -57,6 +57,14 @@ export default class CreateFrontend extends Command {
         message: 'Do you want to include Redux for state handling?',
         required: true,
         choices: ['No', 'Redux', 'Redux Toolkit'],
+      },
+      ,
+      {
+        type: 'list',
+        name: 'linter',
+        message: 'Do you want to include linter?',
+        required: true,
+        choices: ['No', 'eslint+prettier', 'eslint+airbnb', 'eslint+standard'],
       }
     ])
 
@@ -72,7 +80,6 @@ export default class CreateFrontend extends Command {
     if (includeStyledComponents) styledComponentsVersion = await versionInputMethod('styled-components')
 
     includeGitHooks = await includeTech('Husky for git hooks')
-    if (includeGitHooks) huskyVersion = await versionInputMethod('Husky')
 
     //Important paths
     const projectPath: string = process.cwd();
@@ -99,7 +106,7 @@ export default class CreateFrontend extends Command {
     }
 
     //Run create-react-app with config
-    console.log(await executeShellCommand(reactCommand, projectPath))
+    console.log(await executeShellCommand(reactCommand, projectPath));
 
     if (includeStyledComponents) {
       let command: string =`npm install --save styled-components${styledComponentsVersion}`;
@@ -107,11 +114,12 @@ export default class CreateFrontend extends Command {
     }
 
     if (includeGitHooks) {
-      let command: string = `npm install --save-dev lint-staged husky${huskyVersion}`
-      installDependencyCommands.push(command)
+      let command: string = `npm install --save-dev lint-staged husky@4.3.8 prettier`;
+      installDependencyCommands.push(command);
+      command = `touch .prettierignore .prettierrc`;
+      installDependencyCommands.push(command);
       
-        await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]
-        )
+        await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]);
     }
 
     //Install all dependencies
