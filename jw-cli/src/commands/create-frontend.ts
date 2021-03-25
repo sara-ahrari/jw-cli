@@ -58,7 +58,6 @@ export default class CreateFrontend extends Command {
         required: true,
         choices: ['No', 'Redux', 'Redux Toolkit'],
       },
-      ,
       {
         type: 'list',
         name: 'linter',
