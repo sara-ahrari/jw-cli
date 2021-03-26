@@ -39,15 +39,14 @@ export const editJsonFile = async (path: string, keys: string[]) => {
   })
 }
 
-export const editProjectConfigFile = async (insideProjectPath: String, projectConfigFileName:String, configFileName: string) => {
+const editProjectConfigFile = async (insideProjectPath: String, projectConfigFileName: String, configFileName: string) => {
 
   const configTemplatePath = configPath.resolve(__dirname, `./configs/${configFileName}`)
-  fs.readFile(configTemplatePath, 'utf8', (err: any, data:string) => {
+  fs.readFile(configTemplatePath, 'utf8', (err: any, data: string) => {
     if (err) throw err;
 
-    fs.writeFile (`${insideProjectPath}/${projectConfigFileName}`, data, (err:any)  => {
-        if (err) throw err;
+    fs.writeFile(`${insideProjectPath}/${projectConfigFileName}`, data, (err: any) => {
+      if (err) throw err;
     });
-});
-
+  });
 }

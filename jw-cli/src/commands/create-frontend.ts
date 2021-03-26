@@ -2,7 +2,7 @@ import { Command, flags } from '@oclif/command'
 import { prompt } from 'inquirer'
 const exec = require('child_process').exec;
 const ora = require('ora');
-import { executeShellCommand, editJsonFile } from '../utils';
+import { executeShellCommand, editJsonFile, editProjectConfigFile } from '../utils';
 
 export default class CreateFrontend extends Command {
   static description = 'This command sets up a project with your preferred packages and stuff'
@@ -124,7 +124,7 @@ export default class CreateFrontend extends Command {
     //Important paths
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
-    
+
 
     //Determine create-react-app command 
     let installReduxCommand: string = ''
@@ -169,15 +169,10 @@ export default class CreateFrontend extends Command {
       lintingStyleDict[lintingStyle](includeFormatting);
     } else {
       if (includeFormatting) {
-        prettierSetupOnly();
+        prettierSetupOnly(includeGitHooks, insideProjectPath);
       }
     }
 
-    if (includeGitHooks) {
-      const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
-      await executeShellCommand(cmd, insideProjectPath)
-      await editJsonFile(`${insideProjectPath}/package.json`, ["husky", "lint-staged"]);
-    }
   }
 }
 
@@ -199,13 +194,33 @@ const googleSetup = (formatting: boolean) => {
   formatting ? console.log('Setting up Eslint Google + Prettier') : console.log('Setting up Eslint Google')
 }
 
-const prettierSetupOnly = () => {
+const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
+
+  const npmCmd = 'npm install --save-dev prettier'
+  await executeShellCommand(npmCmd, dirPath)
+
+  const filesCmd = 'touch .prettierrc.js .prettierignore'
+  await executeShellCommand(filesCmd, dirPath)
+  await editProjectConfigFile(dirPath, '.prettierrc.js', 'prettierrcConfig')
+  await editProjectConfigFile(dirPath, '.prettierignore', 'prettierignoreConfig')
+
+  if (includeHooks) {
+    await initiateHooks(dirPath)
+  }
+
+
   /* 
   1. install prettier 
-  2. 
-  
-  
+  2. include .prettierrc.js and .prettierIgnore with default settings 
+  3. If includeHooks => initiate husky
+  4. add "prettier --write" to lint-staged if includeHooks
   */
-  
+
 }
 
+//--- HELPER METHODS ---
+const initiateHooks = async (dirPath: string) => {
+  const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
+  await executeShellCommand(cmd, dirPath)
+  await editJsonFile(`${dirPath}/package.json`, ["husky", "lint-staged"]);
+}
