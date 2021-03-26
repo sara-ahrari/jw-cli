@@ -21,7 +21,7 @@ export const executeShellCommand = async (cmd: string, path: string) => {
 
 export const editJsonFile = async (path: string, keys: string[]) => {
 
-  fs.readFile(path, (err: any, data: any) => {
+  fs.readFile(path, (err: any, data: string) => {
     let parsedJSON = JSON.parse(data)
     keys.forEach((key) => {
       const configTemplatePath = configPath.resolve(__dirname, `./configs/${key}`)
@@ -33,6 +33,7 @@ export const editJsonFile = async (path: string, keys: string[]) => {
         }
         parsedJSON[key] = JSON.parse(jsonString);
         fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
+          if (err) throw err;
           //Do something with callback
         })
       })
@@ -40,8 +41,15 @@ export const editJsonFile = async (path: string, keys: string[]) => {
   })
 }
 
-export const editProjectConfigFile = async (path: String, configFileName:String) => {
+export const editProjectConfigFile = async (insideProjectPath: String, configFileName:String) => {
 
+  const configTemplatePath = configPath.resolve(__dirname, `./configs/${configFileName}`)
+  fs.readFile(configTemplatePath, 'utf8', (err: any, data:string) => {
+    if (err) throw err;
 
+    fs.writeFile (`${insideProjectPath}/configFileName`, data, (err:any)  => {
+        if (err) throw err;
+    });
+});
 
 }
