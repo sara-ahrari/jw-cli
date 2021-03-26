@@ -30,7 +30,7 @@ export const editJsonFile = async (path: string, keys: string[]) => {
       fs.readFile(configTemplatePath, "utf8", (err: any, jsonString: string) => {
         if (err) throw err;
         parsedJSON[key] = JSON.parse(jsonString);
-        fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
+        fs.writeFile(path, JSON.stringify(parsedJSON), (err: any) => {
           if (err) throw err;
           //Do something with callback
         })
