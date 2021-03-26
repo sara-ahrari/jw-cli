@@ -1,0 +1,4 @@
+# Here you specify your prettier formatation rules 
+# https://prettier.io/docs/en/configuration.html
+
+singleQuote: true

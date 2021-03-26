@@ -19,34 +19,30 @@ export const executeShellCommand = async (cmd: string, path: string) => {
   });
 }
 
-export const editJsonFile = async (path: string, keys: string[]) => {
+export const editJsonFile = async (jsonPath: string, sources: string[], keys: string[]) => {
+  for (let i = 0; i < sources.length; i++) {
+    const source = sources[i]
+    const configTemplatePath = configPath.resolve(__dirname, source)
 
-  fs.readFile(path, (err: any, data: string) => {
+    const configData = await fs.readFileSync(configTemplatePath, 'utf-8')
+    const jsonData = await fs.readFileSync(jsonPath, 'utf-8')
+
+    let parsedJSON = JSON.parse(jsonData)
+    parsedJSON[keys[i]] = JSON.parse(configData)
+
+    await fs.writeFileSync(jsonPath, JSON.stringify(parsedJSON))
+  }
+}
+
+export const editProjectConfigFile = async (sourceFile: string, destinationPath: string) => {
+
+  const configTemplatePath = configPath.resolve(__dirname, sourceFile)
+
+  fs.copyFile(configTemplatePath, destinationPath, (err: any) => {
     if (err) throw err;
-    let parsedJSON = JSON.parse(data)
-    keys.forEach((key) => {
-      const configTemplatePath = configPath.resolve(__dirname, `./configs/${key}`)
 
-      fs.readFile(configTemplatePath, "utf8", (err: any, jsonString: string) => {
-        if (err) throw err;
-        parsedJSON[key] = JSON.parse(jsonString);
-        fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
-          if (err) throw err;
-          //Do something with callback
-        })
-      })
-    })
+    console.log('Successful copy')
+
   })
 }
 
-const editProjectConfigFile = async (insideProjectPath: String, projectConfigFileName: String, configFileName: string) => {
-
-  const configTemplatePath = configPath.resolve(__dirname, `./configs/${configFileName}`)
-  fs.readFile(configTemplatePath, 'utf8', (err: any, data: string) => {
-    if (err) throw err;
-
-    fs.writeFile(`${insideProjectPath}/${projectConfigFileName}`, data, (err: any) => {
-      if (err) throw err;
-    });
-  });
-}
