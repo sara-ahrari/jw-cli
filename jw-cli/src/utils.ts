@@ -22,15 +22,13 @@ export const executeShellCommand = async (cmd: string, path: string) => {
 export const editJsonFile = async (path: string, keys: string[]) => {
 
   fs.readFile(path, (err: any, data: string) => {
+    if (err) throw err;
     let parsedJSON = JSON.parse(data)
     keys.forEach((key) => {
       const configTemplatePath = configPath.resolve(__dirname, `./configs/${key}`)
 
       fs.readFile(configTemplatePath, "utf8", (err: any, jsonString: string) => {
-        if (err) {
-          console.log("File read failed:", err)
-          return
-        }
+        if (err) throw err;
         parsedJSON[key] = JSON.parse(jsonString);
         fs.writeFile(path, JSON.stringify(parsedJSON), (err: any, res: any) => {
           if (err) throw err;
