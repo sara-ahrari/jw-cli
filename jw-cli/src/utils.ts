@@ -39,3 +39,9 @@ export const editJsonFile = async (path: string, keys: string[]) => {
     })
   })
 }
+
+export const editProjectConfigFile = async (path: String, configFileName:String) => {
+
+
+
+}
