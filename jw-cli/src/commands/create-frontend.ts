@@ -166,7 +166,7 @@ export default class CreateFrontend extends Command {
       default: break;
     }
 
-    //Run create-react-app with config
+    /*Run create-react-app with config*/
     await executeShellCommand(reactCommand, projectPath)
 
     installReduxCommand !== '' && await executeShellCommand(installReduxCommand, insideProjectPath)
@@ -210,7 +210,6 @@ const standardSetup = async (includeHooks: boolean, formatting: boolean, dirPath
   }
 }
 const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
-  //Function for setting up eslint airbnb + prettier
   if (formatting) {
     const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb'
     setUpEslintHelperFormatting(includeHooks, dirPath, language, npmCmd, 'airbnb');
@@ -222,7 +221,6 @@ const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: 
 }
 
 const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
-  //Function for setting up eslint google + prettier
   if (formatting) {
     const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-google'
     setUpEslintHelperFormatting(includeHooks, dirPath, language, npmCmd, 'google');
