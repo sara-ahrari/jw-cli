@@ -247,7 +247,7 @@ const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string,
   await executeShellCommand(initialCmd, dirPath)
   language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
 
-  await initiateHooks(dirPath, './configs/lint-staged-eslint')
+  includeHooks && await initiateHooks(dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'JS' : 'TS'
   await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, false, configType)
