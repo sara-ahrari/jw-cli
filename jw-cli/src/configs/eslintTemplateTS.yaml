@@ -1,0 +1,13 @@
+#Place to configurate eslint settings
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+extends:
+  # - standard, airbnb or google
+  - plugin:@typescript-eslint/recommended
+  - plugin:react/recommended # must be included for react projects
+  # - plugin:prettier/recommended
+rules:
+  react/jsx-filename-extension: 0
+  react/react-in-jsx-scope: 'off'
