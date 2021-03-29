@@ -240,7 +240,7 @@ const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: strin
   await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'JS' : 'TS'
-  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, true, configType)
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, true, configType)
 }
 
 const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
@@ -250,7 +250,7 @@ const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string,
   includeHooks && await initiateHooks(dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'JS' : 'TS'
-  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, false, configType)
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, false, configType)
 }
 
 const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
