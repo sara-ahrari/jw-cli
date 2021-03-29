@@ -53,7 +53,7 @@ export const generateEslintConfig = (configFile: string, templateFile: string, p
   let data: any = template
   let extendsField: string[] = data.extends
 
-  extendsField = [styleGuide, ...extendsField]
+  extendsField.push(styleGuide)
   prettier && extendsField.push('plugin:prettier/recommended')
 
   data.extends = extendsField

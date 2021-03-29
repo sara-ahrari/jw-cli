@@ -1,5 +1,6 @@
 import { Command, flags } from '@oclif/command'
 import { prompt } from 'inquirer'
+import { config } from 'process';
 const exec = require('child_process').exec;
 const ora = require('ora');
 import { executeShellCommand, editJsonFile, copyProjectConfigFile, generateEslintConfig } from '../utils';
@@ -235,22 +236,24 @@ const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: 
 
 const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
   await executeShellCommand(initialCmd, dirPath)
-  language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
+  language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript', dirPath)
 
+  let lintingStyle = language === 'Typescript' && configType === 'airbnb' ? 'airbnb-typescript' : configType
   await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'JS' : 'TS'
-  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, true, configType)
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, true, lintingStyle)
 }
 
 const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
   await executeShellCommand(initialCmd, dirPath)
   language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
+  let lintingStyle = language === 'Typescript' && configType === 'airbnb' ? 'airbnb-typescript' : configType
 
   includeHooks && await initiateHooks(dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'JS' : 'TS'
-  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, false, configType)
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, false, lintingStyle)
 }
 
 const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {

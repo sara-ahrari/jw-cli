@@ -1,6 +1,7 @@
 #Place to configurate eslint settings
 parser: '@typescript-eslint/parser'
 parserOptions:
+  project: './tsconfig.json'
   ecmaVersion: 2020
   sourceType: module
 extends:
@@ -11,3 +12,7 @@ extends:
 rules:
   react/jsx-filename-extension: 0
   react/react-in-jsx-scope: 'off'
+  "@typescript-eslint/no-unused-vars":
+    - error
+
+
