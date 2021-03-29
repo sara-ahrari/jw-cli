@@ -46,7 +46,9 @@ export const copyProjectConfigFile = async (sourceFile: string, destinationPath:
 }
 
 export const generateEslintConfig = (configFile: string, templateFile: string, prettier: boolean, styleGuide: string) => {
-  let template = readYamlFile(templateFile)
+  
+  const configTemplatePath = configPath.resolve(__dirname, templateFile)
+  let template = readYamlFile(configTemplatePath)
 
   let data: any = template
   let extendsField: string[] = data.extends
