@@ -1,6 +1,8 @@
 const exec = require('child_process').exec;
 const fs = require('fs');
+const yaml = require('js-yaml')
 const configPath = require('path');
+
 
 export const executeShellCommand = async (cmd: string, path: string) => {
   return new Promise((resolve, reject) => {
@@ -34,15 +36,44 @@ export const editJsonFile = async (jsonPath: string, sources: string[], keys: st
   }
 }
 
-export const editProjectConfigFile = async (sourceFile: string, destinationPath: string) => {
+export const copyProjectConfigFile = async (sourceFile: string, destinationPath: string) => {
 
   const configTemplatePath = configPath.resolve(__dirname, sourceFile)
 
   fs.copyFile(configTemplatePath, destinationPath, (err: any) => {
     if (err) throw err;
-
-    console.log('Successful copy')
-
   })
 }
 
+export const generateEslintConfig = (configFile: string, templateFile: string, prettier: boolean, styleGuide: string) => {
+  let template = readYamlFile(templateFile)
+
+  let data: any = template
+  let extendsField: string[] = data.extends
+
+  extendsField = [styleGuide, ...extendsField]
+  prettier && extendsField.push('plugin:prettier/recommended')
+
+  data.extends = extendsField
+
+  createYamlFile(configFile, data)
+}
+
+
+const createYamlFile = (destinationFile: string, data: {}) => {
+
+  const yamlString = yaml.dump(data)
+  fs.writeFileSync(destinationFile, yamlString, 'utf8')
+}
+
+const readYamlFile = (file: string) => {
+  try {
+    const data = fs.readFileSync(file, 'utf8')
+    let yamlData = yaml.loadAll(data)[0]
+
+    return yamlData
+
+  } catch (e) {
+    console.log(e)
+  }
+}
