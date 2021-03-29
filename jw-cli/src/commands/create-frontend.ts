@@ -35,8 +35,9 @@ export default class CreateFrontend extends Command {
     let includeFormatting: boolean;
     let lintingStyle: string = '';
     let includeGitHooks: boolean;
+    let includeDocumentation: boolean;
 
-    //First round of questions
+    /*First round of questions*/
     const basicConfiguration: any = await prompt([
       {
         type: 'input',
@@ -56,6 +57,7 @@ export default class CreateFrontend extends Command {
     projectName = basicConfiguration.projectName
     programmingLanguage = basicConfiguration.programmingLanguage
 
+    /*Questions for including redux*/
     const reduxConfiguration: any = await prompt([
       {
         type: 'list',
@@ -76,6 +78,8 @@ export default class CreateFrontend extends Command {
     reduxType = reduxConfiguration.reduxType
     reduxVersion = reduxConfiguration.reduxVersion
 
+
+    /* Questions for including linting*/
     const lintingFormattingConfiguration: any = await prompt([
       {
         type: 'list',
@@ -103,6 +107,7 @@ export default class CreateFrontend extends Command {
     lintingStyle = lintingFormattingConfiguration.eslintStyleGuide
     includeGitHooks = lintingFormattingConfiguration.husky
 
+    /*Question to include styled components*/
     const stylingConfiguration: any = await prompt([
       {
         type: 'confirm',
@@ -122,12 +127,23 @@ export default class CreateFrontend extends Command {
     includeStyledComponents = stylingConfiguration.includeStyledComponents
     styledComponentsVersion = stylingConfiguration.styledComponentsVersion
 
-    //Important paths
+    /* Question for including documentation*/
+    const documentConfiguration: any = await prompt([
+      {
+        type: 'confirm',
+        name: 'includeDocumentation',
+        message: 'Would you like to include React DOC Generator to your project(It generates simple React components documentation in Markdown)?'
+      },
+    ])
+    includeDocumentation = documentConfiguration.includeDocumentation;
+
+
+    /*Important paths*/
     const projectPath: string = process.cwd();
     const insideProjectPath: string = `${process.cwd()}/${projectName}`;
 
 
-    //Determine create-react-app command 
+    /*Determine create-react-app command*/
     let installReduxCommand: string = ''
     let reactCommand: string = ''
 
@@ -160,6 +176,11 @@ export default class CreateFrontend extends Command {
       await executeShellCommand(cmd, insideProjectPath)
     }
 
+    if (includeDocumentation) {
+      const cmd = 'npm install -save-dev react-doc-generator';
+      await executeShellCommand(cmd, insideProjectPath)
+    }
+
     const lintingStyleDict: { [key: string]: (param1: boolean, param2: boolean, param3: string, param4: string) => Promise<void>; } = {
       standard: standardSetup,
       airbnb: airbnbSetup,
@@ -173,7 +194,6 @@ export default class CreateFrontend extends Command {
         prettierSetupOnly(includeGitHooks, insideProjectPath);
       }
     }
-
   }
 }
 
@@ -187,17 +207,17 @@ const standardSetup = async (includeHooks: boolean, formatting: boolean, dirPath
   } else {
     const npmCmd = 'npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise'
     setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'standard');
-}
+  }
 }
 const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
   //Function for setting up eslint airbnb + prettier
   if (formatting) {
     const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb'
-    setUpEslintHelperFormatting(includeHooks, dirPath, language, npmCmd,'airbnb');
+    setUpEslintHelperFormatting(includeHooks, dirPath, language, npmCmd, 'airbnb');
 
   } else {
     const npmCmd = `npm install --save-dev eslint-config-airbnb`
-    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd,'airbnb');
+    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'airbnb');
   }
 }
 
@@ -208,12 +228,10 @@ const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: 
     setUpEslintHelperFormatting(includeHooks, dirPath, language, npmCmd, 'google');
 
   } else {
-    const npmCmd = `npm install --save-dev eslint-config-google`
-    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd,'google');
+    const npmCmd = 'npm install --save-dev eslint-config-google'
+    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'google');
   }
 }
-
-
 
 //--- HELPER METHODS ---
 
@@ -226,11 +244,12 @@ const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: strin
   let langString: string = language === 'Javascript' ? 'js' : 'ts'
   await editProjectConfigFile(`./configs/${langString}/eslintrc/prettier/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
 }
+
 const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
   await executeShellCommand(initialCmd, dirPath)
   language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
 
-  await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
+  await initiateHooks(dirPath, './configs/lint-staged-eslint')
 
   let langString: string = language === 'Javascript' ? 'js' : 'ts'
   await editProjectConfigFile(`./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
