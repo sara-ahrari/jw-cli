@@ -184,43 +184,75 @@ const standardSetup = async (includeHooks: boolean, formatting: boolean, dirPath
     const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-standard eslint-plugin-node eslint-plugin-promise'
     await executeShellCommand(npmCmd, dirPath)
 
-    language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
-
-    await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
-    
-    let langString: string = language === 'Javascript' ? 'js' : 'ts'
-    await editProjectConfigFile(`./configs/${langString}/eslintrc/prettier/.eslintrc(standard).yaml`, `${dirPath}/.eslintrc.yaml`)
+    setUpEslintHelperFormatting(includeHooks, dirPath, language, 'standard');
 
   } else {
     const npmCmd = 'npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise'
     await executeShellCommand(npmCmd, dirPath)
 
-    language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
+    setUpEslintHelperNoFormat(includeHooks, dirPath, language, 'standard');
+}
+}
+const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
+  //Function for setting up eslint airbnb + prettier
+  if (formatting) {
+    const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb'
+    await executeShellCommand(npmCmd, dirPath)
 
-    await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
-    
-    let langString: string = language === 'Javascript' ? 'js' : 'ts'
-    await editProjectConfigFile(`./configs/${langString}/eslintrc/.eslintrc(standard).yaml`, `${dirPath}/.eslintrc.yaml`)
+    setUpEslintHelperFormatting(includeHooks, dirPath, language, 'airbnb');
+
+  } else {
+    const npmCmd = `npm install --save-dev eslint-config-airbnb`
+    await executeShellCommand(npmCmd, dirPath);
+
+    setUpEslintHelperNoFormat(includeHooks, dirPath, language, 'airbnb');
   }
 }
 
-const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string) => {
-  //Function for setting up eslint airbnb + prettier
-  formatting ? console.log('Setting up Eslint Airbnb + Prettier') : console.log('Setting up Eslint Airbnb')
-}
-
-const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string) => {
+const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
   //Function for setting up eslint google + prettier
-  formatting ? console.log('Setting up Eslint Google + Prettier') : console.log('Setting up Eslint Google')
+  if (formatting) {
+    const npmCmd = 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-google'
+    await executeShellCommand(npmCmd, dirPath)
+
+    setUpEslintHelperFormatting(includeHooks, dirPath, language, 'google');
+
+  } else {
+    const npmCmd = `npm install --save-dev eslint-config-google`
+    await executeShellCommand(npmCmd, dirPath);
+
+    setUpEslintHelperNoFormat(includeHooks, dirPath, language, 'google');
+  }
 }
 
-const prettierSetupOnly = async (includeHooks: boolean, dirPath: string,) => {
+
+
+//--- HELPER METHODS ---
+
+const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: string, language: string, configType: string) => {
+  language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
+
+  await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
+
+  let langString: string = language === 'Javascript' ? 'js' : 'ts'
+  await editProjectConfigFile(`./configs/${langString}/eslintrc/prettier/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
+}
+const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, configType: string) => {
+
+  language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
+
+  await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
+
+  let langString: string = language === 'Javascript' ? 'js' : 'ts'
+  await editProjectConfigFile(`./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
+}
+
+const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
   const npmCmd = 'npm install --save-dev prettier'
   await executeShellCommand(npmCmd, dirPath)
   await initPrettier(includeHooks, dirPath, './configs/lint-staged-prettier')
 }
 
-//--- HELPER METHODS ---
 const initPrettier = async (includeHooks: boolean, dirPath: string, lintStagedConfig: string) => {
   await editProjectConfigFile('./configs/.prettierrc.yaml', `${dirPath}/.prettierrc.yaml`)
   await editProjectConfigFile('./configs/.prettierignore', `${dirPath}/.prettierignore`)
