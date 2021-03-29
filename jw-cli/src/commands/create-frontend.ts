@@ -2,7 +2,7 @@ import { Command, flags } from '@oclif/command'
 import { prompt } from 'inquirer'
 const exec = require('child_process').exec;
 const ora = require('ora');
-import { executeShellCommand, editJsonFile, editProjectConfigFile } from '../utils';
+import { executeShellCommand, editJsonFile, copyProjectConfigFile, generateEslintConfig } from '../utils';
 
 export default class CreateFrontend extends Command {
   static description = 'This command sets up a project with your preferred packages and stuff'
@@ -239,8 +239,8 @@ const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: strin
 
   await initPrettier(includeHooks, dirPath, './configs/lint-staged-eslint')
 
-  let langString: string = language === 'Javascript' ? 'js' : 'ts'
-  await editProjectConfigFile(`./configs/${langString}/eslintrc/prettier/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
+  let langString: string = language === 'Javascript' ? 'JS' : 'TS'
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, true, configType)
 }
 
 const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
@@ -249,8 +249,8 @@ const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string,
 
   await initiateHooks(dirPath, './configs/lint-staged-eslint')
 
-  let langString: string = language === 'Javascript' ? 'js' : 'ts'
-  await editProjectConfigFile(`./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, `${dirPath}/.eslintrc.yaml`)
+  let langString: string = language === 'Javascript' ? 'JS' : 'TS'
+  await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/${langString}/eslintrc/.eslintrc(${configType}).yaml`, false, configType)
 }
 
 const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
@@ -260,8 +260,8 @@ const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
 }
 
 const initPrettier = async (includeHooks: boolean, dirPath: string, lintStagedConfig: string) => {
-  await editProjectConfigFile('./configs/.prettierrc.yaml', `${dirPath}/.prettierrc.yaml`)
-  await editProjectConfigFile('./configs/.prettierignore', `${dirPath}/.prettierignore`)
+  await copyProjectConfigFile('./configs/.prettierrc.yaml', `${dirPath}/.prettierrc.yaml`)
+  await copyProjectConfigFile('./configs/.prettierignore', `${dirPath}/.prettierignore`)
 
   if (includeHooks) {
     await initiateHooks(dirPath, lintStagedConfig)
