@@ -6,5 +6,4 @@ parserOptions:
 extends:
   - oclif
   - oclif-typescript
-  - plugin:@typescript-eslint/recommended
   - plugin:prettier/recommended

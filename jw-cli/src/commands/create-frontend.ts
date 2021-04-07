@@ -1,8 +1,5 @@
 import { Command, flags } from '@oclif/command'
 import { prompt } from 'inquirer'
-import { config } from 'process';
-const exec = require('child_process').exec;
-const ora = require('ora');
 import { executeShellCommand, editJsonFile, copyProjectConfigFile, generateEslintConfig } from '../utils';
 
 export default class CreateFrontend extends Command {
@@ -23,21 +20,7 @@ export default class CreateFrontend extends Command {
   // static args = [{ name: 'file' }]
 
 
-
   async run() {
-    //All variables
-    let projectName: string;
-    let programmingLanguage: string;
-    let reduxType: string;
-    let reduxVersion: string = '';
-    let includeStyledComponents: boolean;
-    let styledComponentsVersion: string = '';
-    let includeLinting: boolean;
-    let includeFormatting: boolean;
-    let lintingStyle: string = '';
-    let includeGitHooks: boolean;
-    let includeDocumentation: boolean;
-
     /*First round of questions*/
     const basicConfiguration: any = await prompt([
       {
@@ -55,8 +38,8 @@ export default class CreateFrontend extends Command {
       }
     ])
 
-    projectName = basicConfiguration.projectName
-    programmingLanguage = basicConfiguration.programmingLanguage
+    const projectName: string = basicConfiguration.projectName
+    const programmingLanguage: string = basicConfiguration.programmingLanguage
 
     /*Questions for including redux*/
     const reduxConfiguration: any = await prompt([
@@ -69,15 +52,15 @@ export default class CreateFrontend extends Command {
       {
         type: 'input',
         name: 'reduxVersion',
-        message: (answers) => `Which version of ${answers.reduxType} would you like?:  `,
+        message: (answers) => `Which version of ${answers.reduxType} would you like?  `,
         when: (answers) => answers.reduxType !== 'No',
         default: 'latest',
         validate: (answer) => (answer.split('.').length === 3 && !answer.split('.').includes(' ')) || answer === 'latest'
       }
     ])
 
-    reduxType = reduxConfiguration.reduxType
-    reduxVersion = reduxConfiguration.reduxVersion
+    const reduxType: string = reduxConfiguration.reduxType
+    const reduxVersion: string = reduxConfiguration.reduxVersion
 
 
     /* Questions for including linting*/
@@ -103,10 +86,10 @@ export default class CreateFrontend extends Command {
       }
     ])
 
-    includeLinting = lintingFormattingConfiguration.lintingFormatting.includes('Eslint')
-    includeFormatting = lintingFormattingConfiguration.lintingFormatting.includes('Prettier')
-    lintingStyle = lintingFormattingConfiguration.eslintStyleGuide
-    includeGitHooks = lintingFormattingConfiguration.husky
+    const includeLinting: boolean = lintingFormattingConfiguration.lintingFormatting.includes('Eslint')
+    const includeFormatting: boolean = lintingFormattingConfiguration.lintingFormatting.includes('Prettier')
+    const lintingStyle: string = lintingFormattingConfiguration.eslintStyleGuide
+    const includeGitHooks: boolean = lintingFormattingConfiguration.husky
 
     /*Question to include styled components*/
     const stylingConfiguration: any = await prompt([
@@ -125,8 +108,8 @@ export default class CreateFrontend extends Command {
       }
     ])
 
-    includeStyledComponents = stylingConfiguration.includeStyledComponents
-    styledComponentsVersion = stylingConfiguration.styledComponentsVersion
+    const includeStyledComponents: boolean = stylingConfiguration.includeStyledComponents
+    const styledComponentsVersion: string = stylingConfiguration.styledComponentsVersion
 
     /* Question for including documentation*/
     const documentConfiguration: any = await prompt([
@@ -136,7 +119,7 @@ export default class CreateFrontend extends Command {
         message: 'Would you like to include React DOC Generator to your project(It generates simple React components documentation in Markdown)?'
       },
     ])
-    includeDocumentation = documentConfiguration.includeDocumentation;
+    const includeDocumentation: boolean = documentConfiguration.includeDocumentation;
 
 
     /*Important paths*/
@@ -207,7 +190,7 @@ const standardSetup = async (includeHooks: boolean, formatting: boolean, dirPath
 
   } else {
     const npmCmd = 'npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise'
-    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'standard');
+    setUpEslintHelperNoFormatting(includeHooks, dirPath, language, npmCmd, 'standard');
   }
 }
 const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: string, language: string) => {
@@ -217,7 +200,7 @@ const airbnbSetup = async (includeHooks: boolean, formatting: boolean, dirPath: 
 
   } else {
     const npmCmd = `npm install --save-dev eslint-config-airbnb`
-    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'airbnb');
+    setUpEslintHelperNoFormatting(includeHooks, dirPath, language, npmCmd, 'airbnb');
   }
 }
 
@@ -228,7 +211,7 @@ const googleSetup = async (includeHooks: boolean, formatting: boolean, dirPath: 
 
   } else {
     const npmCmd = 'npm install --save-dev eslint-config-google'
-    setUpEslintHelperNoFormat(includeHooks, dirPath, language, npmCmd, 'google');
+    setUpEslintHelperNoFormatting(includeHooks, dirPath, language, npmCmd, 'google');
   }
 }
 
@@ -245,7 +228,7 @@ const setUpEslintHelperFormatting = async (includeHooks: boolean, dirPath: strin
   await generateEslintConfig(`${dirPath}/.eslintrc.yaml`, `./configs/eslintTemplate${langString}.yaml`, true, lintingStyle)
 }
 
-const setUpEslintHelperNoFormat = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
+const setUpEslintHelperNoFormatting = async (includeHooks: boolean, dirPath: string, language: string, initialCmd: string, configType: string) => {
   await executeShellCommand(initialCmd, dirPath)
   language === 'Typescript' && await executeShellCommand('npm install --save-dev eslint-plugin-react', dirPath)
   let lintingStyle = language === 'Typescript' && configType === 'airbnb' ? 'airbnb-typescript' : configType
