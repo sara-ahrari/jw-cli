@@ -28,28 +28,26 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`project-starterkit hello [FILE]`](#project-starterkit-hello-file)
+* [`project-starterkit create-frontend`](#project-starterkit-create-frontend)
 * [`project-starterkit help [COMMAND]`](#project-starterkit-help-command)
 
-## `project-starterkit hello [FILE]`
+## `project-starterkit create-frontend`
 
-describe the command here
+By using this command you create a project template for frontend.
 
 ```
 USAGE
-  $ project-starterkit hello [FILE]
+  $ project-starterkit create-frontend
 
 OPTIONS
-  -f, --force
   -h, --help       show CLI help
-  -n, --name=name  name to print
 
 EXAMPLE
-  $ project-starterkit hello
+  $ project-starterkit create-frontend
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/SaraAhrari/Jw-cli/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/create-frontend.ts](https://github.com/SaraAhrari/Jw-cli/blob/v0.0.0/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 
