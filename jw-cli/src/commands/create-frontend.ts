@@ -3,7 +3,7 @@ import {
   executeShellCommand,
   editJsonFile,
   copyProjectConfigFile,
-  generateEslintConfig,
+  generateEslintConfig
 } from '../utils';
 import * as prompts from '../promts';
 
@@ -16,7 +16,7 @@ export default class CreateFrontend extends Command {
   // ]
 
   static flags = {
-    help: flags.help({ char: 'h' }),
+    help: flags.help({ char: 'h' })
     //   // flag with a value (-n, --name=VALUE)
     //   name: flags.string({ char: 'n', description: 'name to print' }),
     //   // flag with no value (-f, --force)
@@ -198,7 +198,7 @@ export default class CreateFrontend extends Command {
     const lintingStyleDict: { [key: string]: () => Promise<void> } = {
       standard: standardSetup,
       airbnb: airbnbSetup,
-      google: googleSetup,
+      google: googleSetup
     };
 
     if (includeLinting) {
