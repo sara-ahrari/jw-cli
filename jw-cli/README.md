@@ -15,11 +15,11 @@ A CLI to create new project tempelates
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g jw-cli
+$ npm install -g jw-cli-test
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-cli/0.0.0 win32-x64 node-v15.7.0
+jw-cli-test/1.0.0 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 USAGE
   $ project-starterkit COMMAND
@@ -28,28 +28,22 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`project-starterkit hello [FILE]`](#project-starterkit-hello-file)
+* [`project-starterkit create-frontend`](#project-starterkit-create-frontend)
 * [`project-starterkit help [COMMAND]`](#project-starterkit-help-command)
 
-## `project-starterkit hello [FILE]`
+## `project-starterkit create-frontend`
 
-describe the command here
+This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks
 
 ```
 USAGE
-  $ project-starterkit hello [FILE]
+  $ project-starterkit create-frontend
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ project-starterkit hello
-  hello world from ./src/hello.ts!
+  -h, --help  show CLI help
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/SaraAhrari/Jw-cli/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/create-frontend.ts](https://github.com/SaraAhrari/Jw-cli/blob/v1.0.0/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 

@@ -7,16 +7,17 @@ import {
 } from '../utils';
 import * as prompts from '../promts';
 
+
 export default class CreateFrontend extends Command {
   static description =
-    'This command sets up a project with your preferred packages and stuff';
+    "This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks";
 
   // static examples = [
   //   `$ Create Project Tempelate`,
   // ]
 
   static flags = {
-    help: flags.help({ char: 'h' }),
+    help: flags.help({ char: "h" }),
     //   // flag with a value (-n, --name=VALUE)
     //   name: flags.string({ char: 'n', description: 'name to print' }),
     //   // flag with no value (-f, --force)
@@ -57,6 +58,7 @@ export default class CreateFrontend extends Command {
       documentationConfig.includeDocumentation;
 
     /* Important paths */
+ 
     const projectPath: string = process.cwd();
     const insideProjectPath = `${process.cwd()}/${projectName}`;
 
@@ -74,6 +76,7 @@ export default class CreateFrontend extends Command {
         break;
       }
 
+
       case 'Redux Toolkit': {
         reactCommand =
           programmingLanguage === 'Typescript'
@@ -81,6 +84,7 @@ export default class CreateFrontend extends Command {
             : `npx create-react-app ${projectName} --template redux@${reduxVersion}`;
         break;
       }
+
 
       case 'No': {
         reactCommand =
@@ -148,6 +152,7 @@ export default class CreateFrontend extends Command {
           'npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript',
           insideProjectPath,
         ));
+
 
       const alteredLintingStyle =
         lintingStyle === 'airbnb' && programmingLanguage === 'Typescript'
