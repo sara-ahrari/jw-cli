@@ -1,10 +1,13 @@
 {
     "name": "jw-cli-test",
     "description": "A CLI to create new project tempelates ",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "author": "Sara Ahrari",
     "bin": {
         "project-starterkit": "./bin/run"
+    },
+    "publishConfig": {
+        "registory" : "https://npm.pkg.github.com/@MissZarah"
     },
     "bugs": "https://github.com/SaraAhrari/Jw-cli/issues",
     "dependencies": {
