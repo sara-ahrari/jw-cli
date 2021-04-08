@@ -1,5 +1,5 @@
 {
-    "name": "jw-cli",
+    "name": "@sara-ahrari/jw-cli",
     "description": "A CLI to create new project tempelates ",
     "version": "1.0.0",
     "author": "Sara Ahrari",
@@ -7,7 +7,7 @@
         "project-starterkit": "./bin/run"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@MissZarah"
+        "registry": "https://npm.pkg.github.com/@sara-ahrari"
     },
     "bugs": "https://github.com/SaraAhrari/Jw-cli/issues",
     "dependencies": {
