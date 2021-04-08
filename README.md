@@ -19,7 +19,7 @@ $ npm install -g jw-cli-test
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-cli-test/1.0.3 win32-x64 node-v14.16.0
+jw-cli-test/1.0.0 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 USAGE
   $ project-starterkit COMMAND
