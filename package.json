@@ -7,7 +7,7 @@
         "project-starterkit": "./bin/run"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@MissZarah"
+        "registry": "https://npm.pkg.github.com/MissZarah"
     },
     "bugs": "https://github.com/SaraAhrari/Jw-cli/issues",
     "dependencies": {
