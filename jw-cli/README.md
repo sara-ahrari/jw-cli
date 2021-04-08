@@ -41,17 +41,11 @@ USAGE
 
 OPTIONS
   -h, --help       show CLI help
-
-EXAMPLE
-  $ project-starterkit create-frontend
-  hello world from ./src/hello.ts!
 ```
-
-_See code: [src/commands/create-frontend.ts](https://github.com/SaraAhrari/Jw-cli/blob/v0.0.0/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 
-display help for project-starterkit
+Displays help for this CLI.
 
 ```
 USAGE
