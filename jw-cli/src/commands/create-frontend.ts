@@ -3,7 +3,7 @@ import {
   executeShellCommand,
   editJsonFile,
   copyProjectConfigFile,
-  generateEslintConfig
+  generateEslintConfig,
 } from '../utils';
 import * as prompts from '../promts';
 
@@ -16,7 +16,7 @@ export default class CreateFrontend extends Command {
   // ]
 
   static flags = {
-    help: flags.help({ char: 'h' })
+    help: flags.help({ char: 'h' }),
     //   // flag with a value (-n, --name=VALUE)
     //   name: flags.string({ char: 'n', description: 'name to print' }),
     //   // flag with no value (-f, --force)
@@ -38,10 +38,10 @@ export default class CreateFrontend extends Command {
 
     const lintingConfig: any = await prompts.lintingFormattingConfiguration();
     const includeLinting: boolean = lintingConfig.lintingFormatting.includes(
-      'Eslint'
+      'Eslint',
     );
     const includeFormatting: boolean = lintingConfig.lintingFormatting.includes(
-      'Prettier'
+      'Prettier',
     );
     const lintingStyle: string = lintingConfig.eslintStyleGuide;
     const includeGitHooks: boolean = lintingConfig.husky;
@@ -116,7 +116,7 @@ export default class CreateFrontend extends Command {
       await editJsonFile(
         `${insideProjectPath}/package.json`,
         ['./configs/husky', configLintStaged],
-        ['husky', 'lint-staged']
+        ['husky', 'lint-staged'],
       );
     };
 
@@ -125,11 +125,11 @@ export default class CreateFrontend extends Command {
       await executeShellCommand(npmCmd, insideProjectPath);
       await copyProjectConfigFile(
         './configs/.prettierrc.yaml',
-        `${insideProjectPath}/.prettierrc.yaml`
+        `${insideProjectPath}/.prettierrc.yaml`,
       );
       await copyProjectConfigFile(
         './configs/.prettierignore',
-        `${insideProjectPath}/.prettierignore`
+        `${insideProjectPath}/.prettierignore`,
       );
 
       if (includeGitHooks) {
@@ -146,7 +146,7 @@ export default class CreateFrontend extends Command {
       programmingLanguage === 'Typescript' &&
         (await executeShellCommand(
           'npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript',
-          insideProjectPath
+          insideProjectPath,
         ));
 
       const alteredLintingStyle =
@@ -160,14 +160,14 @@ export default class CreateFrontend extends Command {
           `${insideProjectPath}/.eslintrc.yaml`,
           `./configs/eslintTemplate${langString}.yaml`,
           true,
-          alteredLintingStyle
+          alteredLintingStyle,
         );
       } else {
         await generateEslintConfig(
           `${insideProjectPath}/.eslintrc.yaml`,
           `./configs/eslintTemplate${langString}.yaml`,
           false,
-          alteredLintingStyle
+          alteredLintingStyle,
         );
       }
     };
@@ -198,7 +198,7 @@ export default class CreateFrontend extends Command {
     const lintingStyleDict: { [key: string]: () => Promise<void> } = {
       standard: standardSetup,
       airbnb: airbnbSetup,
-      google: googleSetup
+      google: googleSetup,
     };
 
     if (includeLinting) {
