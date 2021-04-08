@@ -9,7 +9,7 @@
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@sara-ahrari"
     },
-    "bugs": "https://github.com/SaraAhrari/Jw-cli/issues",
+    "bugs": "https://github.com/sara-ahrari/jw-cli/issues",
     "dependencies": {
         "@oclif/command": "^1",
         "@oclif/config": "^1",
@@ -48,7 +48,7 @@
         "/npm-shrinkwrap.json",
         "/oclif.manifest.json"
     ],
-    "homepage": "https://github.com/SaraAhrari/Jw-cli",
+    "homepage": "https://github.com/sara-ahrari/jw-cli",
     "keywords": [
         "oclif"
     ],
@@ -61,7 +61,7 @@
             "@oclif/plugin-help"
         ]
     },
-    "repository": "SaraAhrari/Jw-cli",
+    "repository": "sara-ahrari/jw-cli",
     "scripts": {
         "postpack": "rimraf oclif.manifest.json",
         "posttest": "eslint . --ext .ts --config .eslintrc",
