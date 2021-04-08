@@ -1,14 +1,12 @@
-import { Command, flags } from "@oclif/command";
-import { prompt } from "inquirer";
-import { config } from "process";
-const exec = require("child_process").exec;
-const ora = require("ora");
+import { Command, flags } from '@oclif/command';
 import {
   executeShellCommand,
   editJsonFile,
   copyProjectConfigFile,
   generateEslintConfig,
-} from "../utils";
+} from '../utils';
+import * as prompts from '../promts';
+
 
 export default class CreateFrontend extends Command {
   static description =
@@ -28,162 +26,69 @@ export default class CreateFrontend extends Command {
 
   // static args = [{ name: 'file' }]
 
-  async run() {
-    //All variables
-    let projectName: string;
-    let programmingLanguage: string;
-    let reduxType: string;
-    let reduxVersion: string = "";
-    let includeStyledComponents: boolean;
-    let styledComponentsVersion: string = "";
-    let includeLinting: boolean;
-    let includeFormatting: boolean;
-    let lintingStyle: string = "";
-    let includeGitHooks: boolean;
-    let includeDocumentation: boolean;
+  run = async () => {
+    const basicConfig: any = await prompts.basicConfiguration();
+    const projectName: string = basicConfig.projectName;
+    const programmingLanguage: string = basicConfig.programmingLanguage;
+    const langString: string =
+      programmingLanguage === 'Javascript' ? 'JS' : 'TS';
 
-    /*First round of questions*/
-    const basicConfiguration: any = await prompt([
-      {
-        type: "input",
-        name: "projectName",
-        message: "What is the name of your React project? (lower case only)",
-        required: true,
-        validate: (answer) => answer === answer.toLowerCase(),
-      },
-      {
-        type: "list",
-        name: "programmingLanguage",
-        message:
-          "Please select the language you would like to use in your React project: ",
-        choices: ["Javascript", "Typescript"],
-      },
-    ]);
+    const reduxConfig: any = await prompts.reduxConfiguration();
+    const reduxType: string = reduxConfig.reduxType;
+    const reduxVersion: string = reduxConfig.reduxVersion;
 
-    projectName = basicConfiguration.projectName;
-    programmingLanguage = basicConfiguration.programmingLanguage;
-
-    /*Questions for including redux*/
-    const reduxConfiguration: any = await prompt([
-      {
-        type: "list",
-        name: "reduxType",
-        message: "Would you like to include Redux for state handling?",
-        choices: ["No", "Redux", "Redux Toolkit"],
-      },
-      {
-        type: "input",
-        name: "reduxVersion",
-        message: (answers) =>
-          `Which version of ${answers.reduxType} would you like?:  `,
-        when: (answers) => answers.reduxType !== "No",
-        default: "latest",
-        validate: (answer) =>
-          (answer.split(".").length === 3 &&
-            !answer.split(".").includes(" ")) ||
-          answer === "latest",
-      },
-    ]);
-
-    reduxType = reduxConfiguration.reduxType;
-    reduxVersion = reduxConfiguration.reduxVersion;
-
-    /* Questions for including linting*/
-    const lintingFormattingConfiguration: any = await prompt([
-      {
-        type: "list",
-        name: "lintingFormatting",
-        message: "Please select option for linting and formatting:",
-        choices: ["Eslint + Prettier", "Eslint", "Prettier", "None"],
-      },
-      {
-        type: "list",
-        name: "eslintStyleGuide",
-        message: "Please select a style guide for Eslint: ",
-        choices: ["standard", "airbnb", "google"],
-        when: (answers) => answers.lintingFormatting.includes("Eslint"),
-      },
-      {
-        type: "confirm",
-        name: "husky",
-        message:
-          "Would you like to include pre-commits (husky.js) to your project?",
-        when: (answers) => answers.lingingFormatting !== "None",
-      },
-    ]);
-
-    includeLinting = lintingFormattingConfiguration.lintingFormatting.includes(
-      "Eslint"
+    const lintingConfig: any = await prompts.lintingFormattingConfiguration();
+    const includeLinting: boolean = lintingConfig.lintingFormatting.includes(
+      'Eslint',
     );
-    includeFormatting = lintingFormattingConfiguration.lintingFormatting.includes(
-      "Prettier"
+    const includeFormatting: boolean = lintingConfig.lintingFormatting.includes(
+      'Prettier',
     );
-    lintingStyle = lintingFormattingConfiguration.eslintStyleGuide;
-    includeGitHooks = lintingFormattingConfiguration.husky;
+    const lintingStyle: string = lintingConfig.eslintStyleGuide;
+    const includeGitHooks: boolean = lintingConfig.husky;
 
-    /*Question to include styled components*/
-    const stylingConfiguration: any = await prompt([
-      {
-        type: "confirm",
-        name: "includeStyledComponents",
-        message: "Would you like to include styled-components to your project?",
-      },
-      {
-        type: "input",
-        name: "styledComponentsVersion",
-        message: "Which version of styledComponents would you like?:  ",
-        when: (answers) => answers.includeStyledComponents,
-        default: "latest",
-        validate: (answer) =>
-          (answer.split(".").length === 3 &&
-            !answer.split(".").includes(" ")) ||
-          answer === "latest",
-      },
-    ]);
+    const styledComponentsConfig: any = await prompts.stylingConfiguration();
+    const includeStyledComponents: boolean =
+      styledComponentsConfig.includeStyledComponents;
+    const styledComponentsVersion: string =
+      styledComponentsConfig.styledComponentsVersion;
 
-    includeStyledComponents = stylingConfiguration.includeStyledComponents;
-    styledComponentsVersion = stylingConfiguration.styledComponentsVersion;
+    const documentationConfig: any = await prompts.documentationConfiguration();
+    const includeDocumentation: boolean =
+      documentationConfig.includeDocumentation;
 
-    /* Question for including documentation*/
-    const documentConfiguration: any = await prompt([
-      {
-        type: "confirm",
-        name: "includeDocumentation",
-        message:
-          "Would you like to include React DOC Generator to your project(It generates simple React components documentation in Markdown)?",
-      },
-    ]);
-    includeDocumentation = documentConfiguration.includeDocumentation;
-
-    /*Important paths*/
+    /* Important paths */
+ 
     const projectPath: string = process.cwd();
-    const insideProjectPath: string = `${process.cwd()}/${projectName}`;
+    const insideProjectPath = `${process.cwd()}/${projectName}`;
 
-    /*Determine create-react-app command*/
-    let installReduxCommand: string = "";
-    let reactCommand: string = "";
+    /* Determine create-react-app command */
+    let installReduxCommand = '';
+    let reactCommand = '';
 
     switch (reduxType) {
-      case "Redux": {
+      case 'Redux': {
         reactCommand =
-          programmingLanguage === "Typescript"
+          programmingLanguage === 'Typescript'
             ? `npx create-react-app ${projectName} --template typescript`
             : `npx create-react-app ${projectName}`;
         installReduxCommand = `npm install react-redux@${reduxVersion}`;
         break;
       }
 
-      case "Redux Toolkit": {
+
+      case 'Redux Toolkit': {
         reactCommand =
-          programmingLanguage === "Typescript"
+          programmingLanguage === 'Typescript'
             ? `npx create-react-app ${projectName} --template redux-typescript@${reduxVersion}`
             : `npx create-react-app ${projectName} --template redux@${reduxVersion}`;
         break;
       }
 
-      case "No": {
+
+      case 'No': {
         reactCommand =
-          programmingLanguage === "Typescript"
+          programmingLanguage === 'Typescript'
             ? `npx create-react-app ${projectName} --template typescript`
             : `npx create-react-app ${projectName}`;
         break;
@@ -192,10 +97,10 @@ export default class CreateFrontend extends Command {
         break;
     }
 
-    /*Run create-react-app with config*/
+    /* Run create-react-app with config */
     await executeShellCommand(reactCommand, projectPath);
 
-    installReduxCommand !== "" &&
+    installReduxCommand !== '' &&
       (await executeShellCommand(installReduxCommand, insideProjectPath));
 
     if (includeStyledComponents) {
@@ -204,217 +109,107 @@ export default class CreateFrontend extends Command {
     }
 
     if (includeDocumentation) {
-      const cmd = "npm install -save-dev react-doc-generator";
+      const cmd = 'npm install -save-dev react-doc-generator';
       await executeShellCommand(cmd, insideProjectPath);
     }
 
-    const lintingStyleDict: {
-      [key: string]: (
-        param1: boolean,
-        param2: boolean,
-        param3: string,
-        param4: string
-      ) => Promise<void>;
-    } = {
+    // --- HELPER METHODS ---
+    const initiateHooks = async (configLintStaged: string) => {
+      const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
+      await executeShellCommand(cmd, insideProjectPath);
+      await editJsonFile(
+        `${insideProjectPath}/package.json`,
+        ['./configs/husky', configLintStaged],
+        ['husky', 'lint-staged'],
+      );
+    };
+
+    const setupPrettier = async () => {
+      const npmCmd = 'npm install --save-dev prettier';
+      await executeShellCommand(npmCmd, insideProjectPath);
+      await copyProjectConfigFile(
+        './configs/.prettierrc.yaml',
+        `${insideProjectPath}/.prettierrc.yaml`,
+      );
+      await copyProjectConfigFile(
+        './configs/.prettierignore',
+        `${insideProjectPath}/.prettierignore`,
+      );
+
+      if (includeGitHooks) {
+        if (includeLinting) {
+          await initiateHooks('./configs/lint-staged-eslint');
+        } else {
+          await initiateHooks('./configs/lint-staged-prettier');
+        }
+      }
+    };
+
+    const setupEslint = async (cmd: string) => {
+      await executeShellCommand(cmd, insideProjectPath);
+      programmingLanguage === 'Typescript' &&
+        (await executeShellCommand(
+          'npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript',
+          insideProjectPath,
+        ));
+
+
+      const alteredLintingStyle =
+        lintingStyle === 'airbnb' && programmingLanguage === 'Typescript'
+          ? 'airbnb-typescript'
+          : lintingStyle;
+
+      if (includeFormatting) {
+        await setupPrettier();
+        await generateEslintConfig(
+          `${insideProjectPath}/.eslintrc.yaml`,
+          `./configs/eslintTemplate${langString}.yaml`,
+          true,
+          alteredLintingStyle,
+        );
+      } else {
+        await generateEslintConfig(
+          `${insideProjectPath}/.eslintrc.yaml`,
+          `./configs/eslintTemplate${langString}.yaml`,
+          false,
+          alteredLintingStyle,
+        );
+      }
+    };
+
+    // --- SETUP METHODS ---
+
+    const standardSetup = async () => {
+      const cmd = includeFormatting
+        ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-standard eslint-plugin-node eslint-plugin-promise'
+        : 'npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise';
+      await setupEslint(cmd);
+    };
+
+    const airbnbSetup = async () => {
+      const cmd = includeFormatting
+        ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb'
+        : `npm install --save-dev eslint-config-airbnb`;
+      await setupEslint(cmd);
+    };
+
+    const googleSetup = async () => {
+      const cmd = includeFormatting
+        ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-google'
+        : 'npm install --save-dev eslint-config-google';
+      await setupEslint(cmd);
+    };
+
+    const lintingStyleDict: { [key: string]: () => Promise<void> } = {
       standard: standardSetup,
       airbnb: airbnbSetup,
       google: googleSetup,
     };
 
     if (includeLinting) {
-      lintingStyleDict[lintingStyle](
-        includeGitHooks,
-        includeFormatting,
-        insideProjectPath,
-        programmingLanguage
-      );
-    } else {
-      if (includeFormatting) {
-        prettierSetupOnly(includeGitHooks, insideProjectPath);
-      }
+      await lintingStyleDict[lintingStyle]();
+    } else if (includeFormatting) {
+      await setupPrettier();
     }
-  }
+  };
 }
-
-// --- SETUP METHODS ---
-
-const standardSetup = async (
-  includeHooks: boolean,
-  formatting: boolean,
-  dirPath: string,
-  language: string
-) => {
-  if (formatting) {
-    const npmCmd =
-      "npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-standard eslint-plugin-node eslint-plugin-promise";
-    setUpEslintHelperFormatting(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "standard"
-    );
-  } else {
-    const npmCmd =
-      "npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise";
-    setUpEslintHelperNoFormat(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "standard"
-    );
-  }
-};
-const airbnbSetup = async (
-  includeHooks: boolean,
-  formatting: boolean,
-  dirPath: string,
-  language: string
-) => {
-  if (formatting) {
-    const npmCmd =
-      "npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb";
-    setUpEslintHelperFormatting(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "airbnb"
-    );
-  } else {
-    const npmCmd = `npm install --save-dev eslint-config-airbnb`;
-    setUpEslintHelperNoFormat(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "airbnb"
-    );
-  }
-};
-
-const googleSetup = async (
-  includeHooks: boolean,
-  formatting: boolean,
-  dirPath: string,
-  language: string
-) => {
-  if (formatting) {
-    const npmCmd =
-      "npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-google";
-    setUpEslintHelperFormatting(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "google"
-    );
-  } else {
-    const npmCmd = "npm install --save-dev eslint-config-google";
-    setUpEslintHelperNoFormat(
-      includeHooks,
-      dirPath,
-      language,
-      npmCmd,
-      "google"
-    );
-  }
-};
-
-//--- HELPER METHODS ---
-
-const setUpEslintHelperFormatting = async (
-  includeHooks: boolean,
-  dirPath: string,
-  language: string,
-  initialCmd: string,
-  configType: string
-) => {
-  await executeShellCommand(initialCmd, dirPath);
-  language === "Typescript" &&
-    (await executeShellCommand(
-      "npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript",
-      dirPath
-    ));
-
-  let lintingStyle =
-    language === "Typescript" && configType === "airbnb"
-      ? "airbnb-typescript"
-      : configType;
-  await initPrettier(includeHooks, dirPath, "./configs/lint-staged-eslint");
-
-  let langString: string = language === "Javascript" ? "JS" : "TS";
-  await generateEslintConfig(
-    `${dirPath}/.eslintrc.yaml`,
-    `./configs/eslintTemplate${langString}.yaml`,
-    true,
-    lintingStyle
-  );
-};
-
-const setUpEslintHelperNoFormat = async (
-  includeHooks: boolean,
-  dirPath: string,
-  language: string,
-  initialCmd: string,
-  configType: string
-) => {
-  await executeShellCommand(initialCmd, dirPath);
-  language === "Typescript" &&
-    (await executeShellCommand(
-      "npm install --save-dev eslint-plugin-react",
-      dirPath
-    ));
-  let lintingStyle =
-    language === "Typescript" && configType === "airbnb"
-      ? "airbnb-typescript"
-      : configType;
-
-  includeHooks &&
-    (await initiateHooks(dirPath, "./configs/lint-staged-eslint"));
-
-  let langString: string = language === "Javascript" ? "JS" : "TS";
-  await generateEslintConfig(
-    `${dirPath}/.eslintrc.yaml`,
-    `./configs/eslintTemplate${langString}.yaml`,
-    false,
-    lintingStyle
-  );
-};
-
-const prettierSetupOnly = async (includeHooks: boolean, dirPath: string) => {
-  const npmCmd = "npm install --save-dev prettier";
-  await executeShellCommand(npmCmd, dirPath);
-  await initPrettier(includeHooks, dirPath, "./configs/lint-staged-prettier");
-};
-
-const initPrettier = async (
-  includeHooks: boolean,
-  dirPath: string,
-  lintStagedConfig: string
-) => {
-  await copyProjectConfigFile(
-    "./configs/.prettierrc.yaml",
-    `${dirPath}/.prettierrc.yaml`
-  );
-  await copyProjectConfigFile(
-    "./configs/.prettierignore",
-    `${dirPath}/.prettierignore`
-  );
-
-  if (includeHooks) {
-    await initiateHooks(dirPath, lintStagedConfig);
-  }
-};
-
-const initiateHooks = async (dirPath: string, configLintStaged: string) => {
-  const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
-  await executeShellCommand(cmd, dirPath);
-
-  await editJsonFile(
-    `${dirPath}/package.json`,
-    ["./configs/husky", configLintStaged],
-    ["husky", "lint-staged"]
-  );
-};
