@@ -7,17 +7,12 @@ import {
 } from '../utils';
 import * as prompts from '../promts';
 
-
 export default class CreateFrontend extends Command {
   static description =
-    "This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks";
-
-  // static examples = [
-  //   `$ Create Project Tempelate`,
-  // ]
+    'This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks';
 
   static flags = {
-    help: flags.help({ char: "h" }),
+    help: flags.help({ char: 'h' }),
     //   // flag with a value (-n, --name=VALUE)
     //   name: flags.string({ char: 'n', description: 'name to print' }),
     //   // flag with no value (-f, --force)
@@ -39,10 +34,10 @@ export default class CreateFrontend extends Command {
 
     const lintingConfig: any = await prompts.lintingFormattingConfiguration();
     const includeLinting: boolean = lintingConfig.lintingFormatting.includes(
-      'Eslint',
+      'Eslint'
     );
     const includeFormatting: boolean = lintingConfig.lintingFormatting.includes(
-      'Prettier',
+      'Prettier'
     );
     const lintingStyle: string = lintingConfig.eslintStyleGuide;
     const includeGitHooks: boolean = lintingConfig.husky;
@@ -58,7 +53,7 @@ export default class CreateFrontend extends Command {
       documentationConfig.includeDocumentation;
 
     /* Important paths */
- 
+
     const projectPath: string = process.cwd();
     const insideProjectPath = `${process.cwd()}/${projectName}`;
 
@@ -76,7 +71,6 @@ export default class CreateFrontend extends Command {
         break;
       }
 
-
       case 'Redux Toolkit': {
         reactCommand =
           programmingLanguage === 'Typescript'
@@ -84,7 +78,6 @@ export default class CreateFrontend extends Command {
             : `npx create-react-app ${projectName} --template redux@${reduxVersion}`;
         break;
       }
-
 
       case 'No': {
         reactCommand =
@@ -120,7 +113,7 @@ export default class CreateFrontend extends Command {
       await editJsonFile(
         `${insideProjectPath}/package.json`,
         ['./configs/husky', configLintStaged],
-        ['husky', 'lint-staged'],
+        ['husky', 'lint-staged']
       );
     };
 
@@ -129,11 +122,11 @@ export default class CreateFrontend extends Command {
       await executeShellCommand(npmCmd, insideProjectPath);
       await copyProjectConfigFile(
         './configs/.prettierrc.yaml',
-        `${insideProjectPath}/.prettierrc.yaml`,
+        `${insideProjectPath}/.prettierrc.yaml`
       );
       await copyProjectConfigFile(
         './configs/.prettierignore',
-        `${insideProjectPath}/.prettierignore`,
+        `${insideProjectPath}/.prettierignore`
       );
 
       if (includeGitHooks) {
@@ -150,9 +143,8 @@ export default class CreateFrontend extends Command {
       programmingLanguage === 'Typescript' &&
         (await executeShellCommand(
           'npm install --save-dev eslint-plugin-react eslint-config-airbnb-typescript',
-          insideProjectPath,
+          insideProjectPath
         ));
-
 
       const alteredLintingStyle =
         lintingStyle === 'airbnb' && programmingLanguage === 'Typescript'
@@ -165,14 +157,14 @@ export default class CreateFrontend extends Command {
           `${insideProjectPath}/.eslintrc.yaml`,
           `./configs/eslintTemplate${langString}.yaml`,
           true,
-          alteredLintingStyle,
+          alteredLintingStyle
         );
       } else {
         await generateEslintConfig(
           `${insideProjectPath}/.eslintrc.yaml`,
           `./configs/eslintTemplate${langString}.yaml`,
           false,
-          alteredLintingStyle,
+          alteredLintingStyle
         );
       }
     };
