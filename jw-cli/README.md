@@ -15,11 +15,11 @@ A CLI to create new project tempelates
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g jw-cli
+$ npm install -g jw-cli-test
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-cli/0.0.0 win32-x64 node-v15.7.0
+jw-cli-test/1.0.0 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 USAGE
   $ project-starterkit COMMAND
@@ -33,19 +33,21 @@ USAGE
 
 ## `project-starterkit create-frontend`
 
-By using this command you create a project template for frontend.
+This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks
 
 ```
 USAGE
   $ project-starterkit create-frontend
 
 OPTIONS
-  -h, --help       show CLI help
+  -h, --help  show CLI help
 ```
+
+_See code: [src/commands/create-frontend.ts](https://github.com/SaraAhrari/Jw-cli/blob/v1.0.0/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 
-Displays help for this CLI.
+display help for project-starterkit
 
 ```
 USAGE
