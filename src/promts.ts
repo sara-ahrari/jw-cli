@@ -7,7 +7,8 @@ export const basicConfiguration: any = async () => {
       name: 'projectName',
       message: 'What is the name of your React project? (lower case only)',
       required: true,
-      validate: (answer) => answer === answer.toLowerCase(),
+      validate: (answer) =>
+        answer === answer.toLowerCase() && answer.length > 0,
     },
     {
       type: 'list',
