@@ -1,7 +1,7 @@
-jw-cli
+jw-project-template-cli 
 ======
 
-A CLI to create new project tempelates 
+A CLI to create new project templates 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/jw-cli.svg)](https://npmjs.org/package/jw-cli)
@@ -15,17 +15,25 @@ A CLI to create new project tempelates
 # Usage
 <!-- usage -->
 ```sh-session
+$ npx jw-project-template-cli create-frontend
+running command...
+$ npx project-starterkit (-v|--version|version)
+jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
+$ npx project-starterkit --help [COMMAND]
+```
+
+or
+
+```sh-session
 $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
 jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
-USAGE
-  $ project-starterkit COMMAND
-...
 ```
 <!-- usagestop -->
+
 # Commands
 <!-- commands -->
 * [`project-starterkit create-frontend`](#project-starterkit-create-frontend)
@@ -33,7 +41,7 @@ USAGE
 
 ## `project-starterkit create-frontend`
 
-This command sets up a project with your preferred packages and stuff
+This command sets up a new react project based on your input.
 
 ```
 USAGE
@@ -47,7 +55,7 @@ _See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-c
 
 ## `project-starterkit help [COMMAND]`
 
-display help for project-starterkit
+This commands displays help for a specified COMMAND. 
 
 ```
 USAGE
