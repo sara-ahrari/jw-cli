@@ -1,10 +1,13 @@
 {
-    "name": "jw-cli",
+    "name": "@sara-ahrari/jw-cli",
     "description": "A CLI to create new project tempelates ",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "author": "Sara Ahrari",
     "bin": {
         "project-starterkit": "./bin/run"
+    },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/@sara-ahrari"
     },
     "bugs": "https://github.com/sara-ahrari/jw-cli/issues",
     "dependencies": {
@@ -42,7 +45,6 @@
     "files": [
         "/bin",
         "/lib",
-        "/src/configs",
         "/npm-shrinkwrap.json",
         "/oclif.manifest.json"
     ],

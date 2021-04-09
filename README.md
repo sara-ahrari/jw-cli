@@ -15,11 +15,11 @@ A CLI to create new project tempelates
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g jw-cli
+$ npm install -g jw-cli-poc
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-cli/1.0.1 win32-x64 node-v14.16.0
+jw-cli-poc/1.0.1 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 USAGE
   $ project-starterkit COMMAND
