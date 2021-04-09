@@ -6,6 +6,7 @@ import {
   generateEslintConfig,
 } from '../utils';
 import * as prompts from '../promts';
+import cli from 'cli-ux';
 
 export default class CreateFrontend extends Command {
   static description =
@@ -86,21 +87,28 @@ export default class CreateFrontend extends Command {
     /* Run create-react-app with config */
     await executeShellCommand(reactCommand, projectPath);
 
-    installReduxCommand !== '' &&
-      (await executeShellCommand(installReduxCommand, insideProjectPath));
-
+    if (installReduxCommand !== '') {
+      cli.action.start('Installing redux.. ');
+      await executeShellCommand(installReduxCommand, insideProjectPath);
+      cli.action.stop();
+    }
     if (includeStyledComponents) {
+      cli.action.start('Installing StyledComponents.. ');
       const cmd = `npm install --save styled-components@${styledComponentsVersion}`;
       await executeShellCommand(cmd, insideProjectPath);
+      cli.action.stop();
     }
 
     if (includeDocumentation) {
+      cli.action.start('Including Documentation.. ');
       const cmd = 'npm install -save-dev react-doc-generator';
       await executeShellCommand(cmd, insideProjectPath);
+      cli.action.stop();
     }
 
     // --- HELPER METHODS ---
     const initiateHooks = async (configLintStaged: string): Promise<void> => {
+      cli.action.start('Setting up hooks.. ');
       const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
       await executeShellCommand(cmd, insideProjectPath);
       await editJsonFile(
@@ -108,9 +116,11 @@ export default class CreateFrontend extends Command {
         ['husky', configLintStaged],
         ['husky', 'lint-staged']
       );
+      cli.action.stop();
     };
 
     const setupPrettier = async (): Promise<void> => {
+      cli.action.start('Setting up prettier.. ');
       const npmCmd = 'npm install --save-dev prettier';
       await executeShellCommand(npmCmd, insideProjectPath);
       await copyProjectConfigFile(
@@ -129,9 +139,11 @@ export default class CreateFrontend extends Command {
           await initiateHooks('lint-staged-prettier');
         }
       }
+      cli.action.stop();
     };
 
     const setupEslint = async (cmd: string): Promise<void> => {
+      cli.action.start('Setting up eslint..');
       await executeShellCommand(cmd, insideProjectPath);
       programmingLanguage === 'Typescript' &&
         (await executeShellCommand(
@@ -160,6 +172,7 @@ export default class CreateFrontend extends Command {
           alteredLintingStyle
         );
       }
+      cli.action.stop();
     };
 
     // --- SETUP METHODS ---
