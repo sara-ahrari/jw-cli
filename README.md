@@ -41,7 +41,7 @@ $ project-starterkit --help [COMMAND]
 
 ## `project-starterkit create-frontend`
 
-This command sets up a new react project based on your input.
+This command sets up a new React project based on your input.
 
 ```
 USAGE
@@ -70,3 +70,6 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 <!-- commandsstop -->
+
+# Notes
+❗ When Redux Toolkit and some formatting/linting option is selected, expect the linter/formatter to fail on the boilerplate code provided by Redux Toolkit.
