@@ -1,11 +1,14 @@
-const exec = require("child_process").exec;
-const fs = require("fs");
-const yaml = require("js-yaml");
-const configPath = require("path");
+const exec = require('child_process').exec;
+const fs = require('fs');
+const yaml = require('js-yaml');
+const configPath = require('path');
 
-export const executeShellCommand = async (cmd: string, path: string) => {
+export const executeShellCommand = async (
+  cmd: string,
+  path: string
+): Promise<unknown> => {
   return new Promise((resolve, reject) => {
-    if (path !== "") {
+    if (path !== '') {
       const execution = exec(
         cmd,
         { cwd: path },
@@ -27,26 +30,61 @@ export const editJsonFile = async (
   jsonPath: string,
   sources: string[],
   keys: string[]
-) => {
+): Promise<void> => {
   for (let i = 0; i < sources.length; i++) {
     const source = sources[i];
-    const configTemplatePath = configPath.resolve(__dirname, source);
+    const packagePath = configPath.dirname(
+      require.resolve(
+        configPath.join(require('../package.json').name, 'package.json')
+      )
+    );
+    const configTemplatePath = configPath.join(
+      packagePath,
+      'cliConfigs',
+      source
+    );
 
-    const configData = await fs.readFileSync(configTemplatePath, "utf-8");
-    const jsonData = await fs.readFileSync(jsonPath, "utf-8");
+    const configData = fs.readFileSync(configTemplatePath, 'utf-8');
+    const jsonData = fs.readFileSync(jsonPath, 'utf-8');
 
-    let parsedJSON = JSON.parse(jsonData);
+    const parsedJSON = JSON.parse(jsonData);
     parsedJSON[keys[i]] = JSON.parse(configData);
 
-    await fs.writeFileSync(jsonPath, JSON.stringify(parsedJSON));
+    fs.writeFileSync(jsonPath, JSON.stringify(parsedJSON));
+  }
+};
+
+const createYamlFile = (destinationFile: string, data: any): void => {
+  const yamlString = yaml.dump(data);
+  fs.writeFileSync(destinationFile, yamlString, 'utf8');
+};
+
+const readYamlFile = (file: string): any => {
+  try {
+    const data = fs.readFileSync(file, 'utf8');
+    const yamlData = yaml.loadAll(data)[0];
+
+    return yamlData;
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const copyProjectConfigFile = async (
   sourceFile: string,
   destinationPath: string
-) => {
-  const configTemplatePath = configPath.resolve(__dirname, sourceFile);
+): Promise<void> => {
+  const packagePath = configPath.dirname(
+    require.resolve(
+      configPath.join(require('../package.json').name, 'package.json')
+    )
+  );
+
+  const configTemplatePath = configPath.join(
+    packagePath,
+    'cliConfigs',
+    sourceFile
+  );
 
   fs.copyFile(configTemplatePath, destinationPath, (err: any) => {
     if (err) throw err;
@@ -58,33 +96,27 @@ export const generateEslintConfig = (
   templateFile: string,
   prettier: boolean,
   styleGuide: string
-) => {
-  const configTemplatePath = configPath.resolve(__dirname, templateFile);
-  let template = readYamlFile(configTemplatePath);
+): void => {
+  const packagePath = configPath.dirname(
+    require.resolve(
+      configPath.join(require('../package.json').name, 'package.json')
+    )
+  );
 
-  let data: any = template;
-  let extendsField: string[] = data.extends;
+  const configTemplatePath = configPath.join(
+    packagePath,
+    'cliConfigs',
+    templateFile
+  );
+  const template = readYamlFile(configTemplatePath);
+
+  const data: any = template;
+  const extendsField: string[] = data.extends;
 
   extendsField.push(styleGuide);
-  prettier && extendsField.push("plugin:prettier/recommended");
+  prettier && extendsField.push('plugin:prettier/recommended');
 
   data.extends = extendsField;
 
   createYamlFile(configFile, data);
-};
-
-const createYamlFile = (destinationFile: string, data: {}) => {
-  const yamlString = yaml.dump(data);
-  fs.writeFileSync(destinationFile, yamlString, "utf8");
-};
-
-const readYamlFile = (file: string) => {
-  try {
-    const data = fs.readFileSync(file, "utf8");
-    let yamlData = yaml.loadAll(data)[0];
-
-    return yamlData;
-  } catch (e) {
-    console.log(e);
-  }
 };

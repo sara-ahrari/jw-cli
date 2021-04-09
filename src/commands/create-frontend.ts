@@ -9,19 +9,13 @@ import * as prompts from '../promts';
 
 export default class CreateFrontend extends Command {
   static description =
-    'This command helps you to bootstrap a React project with state managment, formatting, linting and git hooks';
+    'This command sets up a project with your preferred packages and stuff';
 
   static flags = {
     help: flags.help({ char: 'h' }),
-    //   // flag with a value (-n, --name=VALUE)
-    //   name: flags.string({ char: 'n', description: 'name to print' }),
-    //   // flag with no value (-f, --force)
-    //   force: flags.boolean({ char: 'f' }),
   };
 
-  // static args = [{ name: 'file' }]
-
-  run = async () => {
+  run = async (): Promise<void> => {
     const basicConfig: any = await prompts.basicConfiguration();
     const projectName: string = basicConfig.projectName;
     const programmingLanguage: string = basicConfig.programmingLanguage;
@@ -53,7 +47,6 @@ export default class CreateFrontend extends Command {
       documentationConfig.includeDocumentation;
 
     /* Important paths */
-
     const projectPath: string = process.cwd();
     const insideProjectPath = `${process.cwd()}/${projectName}`;
 
@@ -107,38 +100,38 @@ export default class CreateFrontend extends Command {
     }
 
     // --- HELPER METHODS ---
-    const initiateHooks = async (configLintStaged: string) => {
+    const initiateHooks = async (configLintStaged: string): Promise<void> => {
       const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
       await executeShellCommand(cmd, insideProjectPath);
       await editJsonFile(
         `${insideProjectPath}/package.json`,
-        ['./configs/husky', configLintStaged],
+        ['husky', configLintStaged],
         ['husky', 'lint-staged']
       );
     };
 
-    const setupPrettier = async () => {
+    const setupPrettier = async (): Promise<void> => {
       const npmCmd = 'npm install --save-dev prettier';
       await executeShellCommand(npmCmd, insideProjectPath);
       await copyProjectConfigFile(
-        './configs/.prettierrc.yaml',
+        '.prettierrc.yaml',
         `${insideProjectPath}/.prettierrc.yaml`
       );
       await copyProjectConfigFile(
-        './configs/.prettierignore',
+        '.prettierignore',
         `${insideProjectPath}/.prettierignore`
       );
 
       if (includeGitHooks) {
         if (includeLinting) {
-          await initiateHooks('./configs/lint-staged-eslint');
+          await initiateHooks('lint-staged-eslint');
         } else {
-          await initiateHooks('./configs/lint-staged-prettier');
+          await initiateHooks('lint-staged-prettier');
         }
       }
     };
 
-    const setupEslint = async (cmd: string) => {
+    const setupEslint = async (cmd: string): Promise<void> => {
       await executeShellCommand(cmd, insideProjectPath);
       programmingLanguage === 'Typescript' &&
         (await executeShellCommand(
@@ -155,14 +148,14 @@ export default class CreateFrontend extends Command {
         await setupPrettier();
         await generateEslintConfig(
           `${insideProjectPath}/.eslintrc.yaml`,
-          `./configs/eslintTemplate${langString}.yaml`,
+          `eslintTemplate${langString}.yaml`,
           true,
           alteredLintingStyle
         );
       } else {
         await generateEslintConfig(
           `${insideProjectPath}/.eslintrc.yaml`,
-          `./configs/eslintTemplate${langString}.yaml`,
+          `eslintTemplate${langString}.yaml`,
           false,
           alteredLintingStyle
         );
@@ -171,21 +164,21 @@ export default class CreateFrontend extends Command {
 
     // --- SETUP METHODS ---
 
-    const standardSetup = async () => {
+    const standardSetup = async (): Promise<void> => {
       const cmd = includeFormatting
         ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-standard eslint-plugin-node eslint-plugin-promise'
         : 'npm install --save-dev eslint-config-standard eslint-plugin-node eslint-plugin-promise';
       await setupEslint(cmd);
     };
 
-    const airbnbSetup = async () => {
+    const airbnbSetup = async (): Promise<void> => {
       const cmd = includeFormatting
         ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-airbnb'
         : `npm install --save-dev eslint-config-airbnb`;
       await setupEslint(cmd);
     };
 
-    const googleSetup = async () => {
+    const googleSetup = async (): Promise<void> => {
       const cmd = includeFormatting
         ? 'npm install --save-dev eslint-plugin-prettier prettier eslint-config-prettier eslint-config-google'
         : 'npm install --save-dev eslint-config-google';
