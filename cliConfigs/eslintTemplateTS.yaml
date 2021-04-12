@@ -4,6 +4,9 @@ parserOptions:
   project: './tsconfig.json'
   ecmaVersion: 2020
   sourceType: module
+env: 
+  browser: true 
+  node: true
 extends:
   # - standard, airbnb or google
   - plugin:@typescript-eslint/recommended
