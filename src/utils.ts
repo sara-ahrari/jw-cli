@@ -92,7 +92,7 @@ export const copyProjectConfigFile = async (
   });
 };
 
-export const copyFolder = (srcDir: string, destDir: string): Promise<void> => {
+export const copyFolder = (srcDir: string, destDir: string) => {
   const packagePath = configPath.dirname(
     require.resolve(
       configPath.join(require('../package.json').name, 'package.json')
