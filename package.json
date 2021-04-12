@@ -12,6 +12,7 @@
         "@oclif/config": "^1",
         "@oclif/plugin-help": "^3",
         "fs": "0.0.1-security",
+        "fs-extra": "^9.1.0",
         "inquirer": "^7.3.3",
         "js-yaml": "^4.0.0",
         "ora": "^5.3.0",

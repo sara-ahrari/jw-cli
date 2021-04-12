@@ -1,5 +1,6 @@
 const exec = require('child_process').exec;
 const fs = require('fs');
+const fse = require('fs-extra');
 const yaml = require('js-yaml');
 const configPath = require('path');
 
@@ -89,6 +90,22 @@ export const copyProjectConfigFile = async (
   fs.copyFile(configTemplatePath, destinationPath, (err: any) => {
     if (err) throw err;
   });
+};
+
+export const copyFolder = (srcDir: string, destDir: string): Promise<void> => {
+  const packagePath = configPath.dirname(
+    require.resolve(
+      configPath.join(require('../package.json').name, 'package.json')
+    )
+  );
+
+  const srcDirPath = configPath.join(packagePath, 'cliConfigs', srcDir);
+
+  try {
+    fse.copySync(srcDirPath, destDir);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const generateEslintConfig = (
