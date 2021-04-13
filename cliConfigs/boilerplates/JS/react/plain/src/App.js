@@ -1,4 +1,4 @@
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from './assets/logo.svg';
 import './App.css';
 
 const App = () => {

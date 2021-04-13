@@ -99,7 +99,10 @@ export default class CreateFrontend extends Command {
         );
         cli.action.stop();
       } else {
-        copyFolder(`boilerplates/${langString}/redux/plain`, insideProjectPath);
+        copyFolder(
+          `boilerplates/${langString}/react/redux/plain`,
+          insideProjectPath
+        );
       }
     };
 
