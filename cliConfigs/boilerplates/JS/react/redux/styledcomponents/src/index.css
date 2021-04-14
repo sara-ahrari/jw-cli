@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Jayway-font';
+  src: url("//db.onlinewebfonts.com/t/861c82904eac3945e456aa830c96b1dd.woff2") format("woff2");
+}
+
+body {
+  margin: 0;
+  font-family: 'Jayway-font';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Jayway-font'
+}

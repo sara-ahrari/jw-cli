@@ -68,7 +68,7 @@ export default class CreateFrontend extends Command {
         const styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion}`;
         await executeShellCommand(styledComponentCmd, insideProjectPath);
         copyFolder(
-          `boilerplates/${langString}/react/styledcomponent`,
+          `boilerplates/${langString}/react/styledcomponents`,
           insideProjectPath
         );
         cli.action.stop();
@@ -94,7 +94,7 @@ export default class CreateFrontend extends Command {
         const styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion}`;
         await executeShellCommand(styledComponentCmd, insideProjectPath);
         copyFolder(
-          `boilerplates/${langString}/redux/styledcomponent`,
+          `boilerplates/${langString}/react/redux/styledcomponents`,
           insideProjectPath
         );
         cli.action.stop();
