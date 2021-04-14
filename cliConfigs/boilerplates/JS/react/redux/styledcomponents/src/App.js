@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from './assets/logo.svg';
-import './App.css';
 import Counter from './features/counter/Counter';
 import {
   AppContainer,
@@ -16,7 +15,6 @@ const App = () => {
     <AppContainer>
       <Header>
         <Logo src={logo} alt="main logo" />
-
         <Title>
           <p>
             Hurray, you have just created a React + Redux Toolkit app with our
