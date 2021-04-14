@@ -1,30 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import logo from './assets/logo.svg';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-        >
-          Learn React
-        </a>
-        <a
-          className="App-link"
-          href="https://www.npmjs.com/package/jw-project-template-cli"
-        >
-          Learn more about the Jayway CLI 
-        </a>
+    <div className="app">
+      <header className="app-header">
+        <img src={logo} className="main-logo" alt="logo" />
+        <div className="p-container">
+          <p>
+            Hurray, you have just created a React app with Jayway project
+            template CLI!
+          </p>
+        </div>
+        <div className="link-container">
+          <a className="app-link" href="https://reactjs.org">
+            Learn more about React
+          </a>
+          <a
+            className="app-link"
+            href="https://www.npmjs.com/package/jw-project-template-cli"
+          >
+            Read more about this CLI
+          </a>
+        </div>
       </header>
     </div>
   );
-}
+};
 
 export default App;
