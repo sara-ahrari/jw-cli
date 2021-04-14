@@ -6,7 +6,8 @@ const configPath = require('path');
 
 export const executeShellCommand = async (
   cmd: string,
-  path: string
+  path: string,
+  pipe = true
 ): Promise<unknown> => {
   return new Promise((resolve, reject) => {
     if (path !== '') {
@@ -22,7 +23,7 @@ export const executeShellCommand = async (
         }
       );
 
-      execution.stdout.pipe(process.stdout);
+      pipe && execution.stdout.pipe(process.stdout);
     }
   });
 };
