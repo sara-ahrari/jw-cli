@@ -25,14 +25,14 @@ const App = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn more about React
+            Learn React
           </Link>
           <Link
             href="https://www.npmjs.com/package/jw-project-template-cli"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more about this CLI
+            Learn this CLI
           </Link>
         </LinkContainer>
       </Header>
