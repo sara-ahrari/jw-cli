@@ -92,7 +92,12 @@ export default class CreateFrontend extends Command {
 
       if (includeStyledComponents) {
         cli.action.start('Installing styled components...');
-        const styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion}`;
+        let styledComponentCmd = '';
+        if (programmingLanguage === 'Typescript') {
+          styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion} @types/styled-components`;
+        } else {
+          styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion}`;
+        }
         await executeShellCommand(styledComponentCmd, insideProjectPath);
         copyFolder(
           `boilerplates/${langString}/react/redux/styledcomponents`,
