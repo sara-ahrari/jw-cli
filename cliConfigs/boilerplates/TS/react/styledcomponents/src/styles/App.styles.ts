@@ -35,21 +35,12 @@ export const Title = styled.div`
 export const LinkContainer = styled.div`
   display: flex;
   align-self: center;
-  margin-top: 30vmin;
-  width: 40%;
-  justify-content: space-between;
+  position: fixed;
+  bottom: 2vmin;
+  width: 70%;
+  justify-content: space-evenly;
 `;
 
 export const Link = styled.a`
-  background-color: #eca541;
-  border-radius: 5px;
-  color: white;
-  margin: 0.2em;
-  padding: 15px;
-  text-decoration: none;
-
-  :hover {
-    color: inherit;
-    background-color: #f9cdda;
-  }
+  color: rgb(112, 76, 182);
 `;

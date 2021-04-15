@@ -1,26 +1,29 @@
 import logo from './assets/logo.svg';
 import './App.css';
+import Content from './components/Content/Content';
+import { ReactElement } from 'react';
 
-const App = () => {
+const App = (): ReactElement => {
   return (
     <div className="app">
       <header className="app-header">
         <img src={logo} className="main-logo" alt="logo" />
-        <div className="p-container">
-          <p>
+        <div className="title-container">
+          <h4>
             Hurray, you have just created a React app with Jayway project
             template CLI!
-          </p>
+          </h4>
         </div>
+        <Content />
         <div className="link-container">
           <a className="app-link" href="https://reactjs.org">
-            Learn more about React
+            Learn React
           </a>
           <a
             className="app-link"
             href="https://www.npmjs.com/package/jw-project-template-cli"
           >
-            Read more about this CLI
+            Learn this CLI
           </a>
         </div>
       </header>

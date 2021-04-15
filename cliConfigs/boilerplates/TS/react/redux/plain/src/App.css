@@ -1,54 +1,64 @@
 .app {
-    text-align: center;
-  }
-  
-  html { 
-    background:  url("./assets/1178.gif") no-repeat center center fixed; 
-    background-size: cover;
-  }
-  
-  .main-logo {
-    height: 10vmin;
-    margin-left: 5%;
-    margin-top: 5%;
-    align-self: flex-start;
-  }
-  
-  .link-container {
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-    margin-top: 24vmin;
-    width: 70%;
-    justify-content: space-between;
-  }
-  
-  .app-header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-size: calc(10px + 2vmin);
-  }
-  
-  .app-link {
-    color: rgb(112, 76, 182);
-  }
-  
-  a:hover {
-    color: #F9CDDA;
-  }
-  
-  .p-container {
-    border-radius: 50px;
-    width: 70%;
-    background-color: black;
-    margin-top: 2px;
-    opacity: 70%;
-    align-self: center;
-  }
-  
-  p {
-    color:white;
-    font-size: 100%;
-  }
-  
+  text-align: center;
+}
+
+html { 
+  background:  url("./assets/1178.gif") no-repeat center center fixed; 
+  background-size: cover;
+}
+
+.main-logo {
+  height: 10vmin;
+  margin-left: 5%;
+  margin-top: 5%;
+  align-self: flex-start;
+}
+
+.toggle-example-button {
+  background-color: black;
+  opacity: 70%;
+  border-radius: 50px;
+  width: 20%;
+  align-self: center;
+  font-size: 65%;
+  margin-top: 1%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.link-container {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  position: fixed;
+  bottom: 2vmin;
+  width: 70%;
+  justify-content: space-between;
+}
+
+.app-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+}
+
+.app-link {
+  color: rgb(112, 76, 182);
+}
+
+.title-container {
+  border-radius: 50px;
+  width: 70%;
+  background-color: black;
+  margin-top: 2%;
+  opacity: 70%;
+  align-self: center;
+}
+
+p {
+  color:white;
+  font-size: 100%;
+}
+

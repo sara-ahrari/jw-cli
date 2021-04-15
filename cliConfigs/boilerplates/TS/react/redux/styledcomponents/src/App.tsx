@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, ReactElement} from 'react';
 import Counter from './features/counter/Counter';
 
 import {
@@ -8,10 +8,19 @@ import {
   Title,
   LinkContainer,
   Link,
+  ExampleButton
 } from './styles/App.styles';
 import logoSrc from './assets/logo.svg';
+import Content from './components/Content/Content';
 
-const App = () => {
+const App = (): ReactElement => {
+
+  const [showExample, setShowExample] = useState(false);
+
+  const toggleExample = (): void => {
+    setShowExample(!showExample);
+  };
+
   return (
     <AppContainer>
       <Header>
@@ -22,7 +31,17 @@ const App = () => {
             template CLI!
           </p>
         </Title>
-        <Counter />
+
+        {showExample ? <Counter /> : <Content />}
+
+        <ExampleButton
+          className="toggle-example-button"
+          type="button"
+          onClick={() => toggleExample()}
+        >
+          {showExample ? 'Hide Redux Example' : 'Show Redux Example'}
+        </ExampleButton>
+        
         <LinkContainer>
           <Link href="https://reactjs.org/">Learn React</Link>
           <Link href="https://redux.js.org/">Learn Redux</Link>

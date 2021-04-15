@@ -15,7 +15,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <img className="main-logo" src={logo} alt="main logo" />
-        <div className="p-container">
+        <div className="title-container">
           <p>
             Hurray, you have just created a React + Redux Toolkit app with our
             project template CLI!

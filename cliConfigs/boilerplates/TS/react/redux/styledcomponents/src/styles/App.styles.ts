@@ -11,6 +11,19 @@ export const Logo = styled.img`
   align-self: flex-start;
 `;
 
+export const ExampleButton = styled.button`
+  background-color: black;
+  opacity: 70%;
+  border-radius: 50px;
+  width: 20%;
+  align-self: center;
+  font-size: 65%;
+  margin-top: 1%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+`;
+
 export const Header = styled.header`
   min-height: 100vh;
   display: flex;
@@ -35,7 +48,8 @@ export const Title = styled.div`
 export const LinkContainer = styled.div`
   display: flex;
   align-self: center;
-  margin-top: 25vmin;
+  position: fixed;
+  bottom: 2vmin;
   width: 70%;
   justify-content: space-between;
 `;

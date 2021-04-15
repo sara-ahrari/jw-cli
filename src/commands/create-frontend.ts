@@ -68,6 +68,11 @@ export default class CreateFrontend extends Command {
         cli.action.start('Installing styled components...');
         const styledComponentCmd = `npm install --save styled-components@${styledComponentsVersion}`;
         await executeShellCommand(styledComponentCmd, insideProjectPath);
+        programmingLanguage === 'Typescript' &&
+          (await executeShellCommand(
+            'npm i --save-dev @types/styled-components',
+            insideProjectPath
+          ));
         copyFolder(
           `boilerplates/${langString}/react/styledcomponents`,
           insideProjectPath

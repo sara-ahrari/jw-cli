@@ -7,6 +7,8 @@ parserOptions:
 env: 
   browser: true 
   node: true
+plugins: 
+  - react
 extends:
   # - standard, airbnb or google
   - plugin:@typescript-eslint/recommended
@@ -18,7 +20,9 @@ rules:
   "@typescript-eslint/no-unused-vars":
     - error
   import/no-cycle: 'off'
+  import/extensions: 'off'
   no-param-reassign: 
     - 2
     - props: false 
+  no-use-before-define: 'off'
 
