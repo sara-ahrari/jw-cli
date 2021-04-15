@@ -7,7 +7,7 @@ import {
   Link,
 } from './styles/App.styles';
 import logoSrc from './assets/logo.svg';
-import Content from './components/Content/';
+import Content from './components/Content/Content';
 
 const App = () => {
   return (

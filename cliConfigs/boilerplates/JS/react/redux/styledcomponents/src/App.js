@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './assets/logo.svg';
 import Counter from './features/counter/Counter';
 import {
@@ -8,9 +8,17 @@ import {
   Title,
   LinkContainer,
   Link,
+  ExampleButton
 } from './styles/App.styles';
+import Content from './components/Content/Content';
 
 const App = () => {
+  const [showExample, setShowExample] = useState(false);
+
+  const toggleExample = () => {
+    setShowExample(!showExample)
+  };
+
   return (
     <AppContainer>
       <Header>
@@ -22,7 +30,11 @@ const App = () => {
           </p>
         </Title>
 
-        <Counter />
+        {showExample ? <Counter /> : <Content />}
+        
+        <ExampleButton onClick={() => toggleExample()}>
+          {showExample ? "Hide Redux Example" : "Show Redux Example"}
+        </ExampleButton>
 
         <LinkContainer>
           <Link

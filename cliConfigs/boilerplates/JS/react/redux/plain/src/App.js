@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './assets/logo.svg';
 import './App.css';
 import Counter from './features/counter/Counter';
+import Content from './components/Content/Content';
 
 const App = () => {
+  const [showExample, setShowExample] = useState(false);
+
+  const toggleExample = () => {
+    setShowExample(!showExample);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +22,15 @@ const App = () => {
           </p>
         </div>
 
-        <Counter />
+        {showExample ? <Counter /> : <Content />}
+
+        <button
+          className="toggle-example-button"
+          type="button"
+          onClick={() => toggleExample()}
+        >
+          {showExample ? 'Hide Redux Example' : 'Show Redux Example'}
+        </button>
 
         <div className="link-container">
           <a
