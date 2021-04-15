@@ -133,7 +133,7 @@ export default class CreateFrontend extends Command {
       language: programmingLanguage,
       redux: reduxType === 'No' ? false : reduxType,
       formatting: includeFormatting,
-      preCommits: includeGitHooks,
+      preCommits: includeGitHooks ? 'Husky' : false,
       linting: includeLinting ? lintingStyle : false,
       styledComponents: includeStyledComponents,
       documentation: includeDocumentation,

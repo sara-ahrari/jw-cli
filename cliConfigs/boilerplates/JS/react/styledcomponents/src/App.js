@@ -7,6 +7,7 @@ import {
   Link,
 } from './styles/App.styles';
 import logoSrc from './assets/logo.svg';
+import Content from './components/Content/';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
             template CLI!
           </p>
         </Title>
+        <Content />
         <LinkContainer>
           <Link
             href="https://reactjs.org"
