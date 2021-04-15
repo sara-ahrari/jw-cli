@@ -1,15 +1,19 @@
-import { ReactComponent as Logo } from './assets/logo.svg';
 import './App.css';
+import logoSrc from './assets/logo.svg';
+import Content from './components/Content/Content';
 
 const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <Logo style={{ height: '30vmin' }} />
-        <p>
-          Hurray, you have just created a React app with Jayway project template
-          CLI!
-        </p>
+        <img className="main-logo" src={logoSrc} alt="main logo" />
+        <div className="title-container">
+          <h4>
+            Hurray, you have just created a React app with Jayway project
+            template CLI!
+          </h4>
+        </div>
+        <Content />
         <div className="link-container">
           <a
             className="App-link"

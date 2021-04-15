@@ -5,6 +5,7 @@ import {
   copyProjectConfigFile,
   generateEslintConfig,
   copyFolder,
+  createFile,
 } from '../utils';
 import * as prompts from '../promts';
 import cli from 'cli-ux';
@@ -126,6 +127,22 @@ export default class CreateFrontend extends Command {
       default:
         break;
     }
+
+    const content = {
+      projectName: projectName,
+      language: programmingLanguage,
+      redux: reduxType === 'No' ? false : reduxType,
+      formatting: includeFormatting,
+      preCommits: includeGitHooks,
+      linting: includeLinting ? lintingStyle : false,
+      styledComponents: includeStyledComponents,
+      documentation: includeDocumentation,
+    };
+
+    createFile(
+      `${insideProjectPath}/src/assets/contentFromCLI.json`,
+      JSON.stringify(content)
+    );
 
     if (includeDocumentation) {
       cli.action.start('Including Documentation.. ');

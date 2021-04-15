@@ -28,6 +28,10 @@ export const executeShellCommand = async (
   });
 };
 
+export const createFile = (data: string, path: string): void => {
+  fs.writeFileSync(path, data, 'utf8');
+};
+
 export const editJsonFile = async (
   jsonPath: string,
   sources: string[],

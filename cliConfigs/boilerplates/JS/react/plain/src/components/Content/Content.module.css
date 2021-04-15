@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50vmin;
+    background-color: white;
+    opacity: 70%;
+    border-radius: 50px;
+    margin-top: 1%;
+    align-self: center;
+  }
+  
+  .container > p {
+    color: black;
+    font-size: 70%;
+  }
+  
+  .container > h4 {
+    text-decoration: underline;
+    color: black;
+  }
