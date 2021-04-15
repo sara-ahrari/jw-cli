@@ -130,6 +130,7 @@ export const generateEslintConfig = (
     'cliConfigs',
     templateFile
   );
+
   const template = readYamlFile(configTemplatePath);
 
   const data: any = template;

@@ -4,6 +4,19 @@ export const AppContainer = styled.div`
   text-align: center;
 `;
 
+export const ExampleButton = styled.button`
+  background-color: black;
+  opacity: 70%;
+  border-radius: 50px;
+  width: 20%;
+  align-self: center;
+  font-size: 65%;
+  margin-top: 1%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+`;
+
 export const Logo = styled.img`
   height: 10vmin;
   margin-left: 5%;
@@ -36,7 +49,8 @@ export const LinkContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-self: center;
-  margin-top: 30vmin;
+  position: fixed; 
+  bottom: 2vmin;
   width: 70%;
   justify-content: space-between;
 `;

@@ -2,11 +2,6 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   text-align: center;
-
-  h4 {
-    color: white; 
-    font-size: 100%;
-  }
 `;
 
 export const Logo = styled.img`
@@ -30,13 +25,17 @@ export const Title = styled.div`
   margin-top: 2%;
   opacity: 70%;
   align-self: center;
+  color: white;
+  h4 {
+    font-size: 100%;
+  }
 `;
 
 export const LinkContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-self: center;
-  margin-top: 5vmin;
+  margin-top: 6vmin;
   width: 70%;
   justify-content: space-evenly;
 `;
