@@ -1,5 +1,5 @@
 import React from 'react';
-import contentFromCLI from '../../assets/contentFromCLI.json';
+import contentFromCLI from './contentFromCLI.json';
 import styles from './Content.module.css';
 
 const Content = () => {
