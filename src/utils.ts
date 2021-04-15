@@ -28,7 +28,7 @@ export const executeShellCommand = async (
   });
 };
 
-export const createFile = (data: string, path: string): void => {
+export const createFile = (path: string, data: string): void => {
   fs.writeFileSync(path, data, 'utf8');
 };
 

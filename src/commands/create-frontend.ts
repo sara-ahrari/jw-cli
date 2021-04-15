@@ -140,7 +140,7 @@ export default class CreateFrontend extends Command {
     };
 
     createFile(
-      `${insideProjectPath}/src/assets/contentFromCLI.json`,
+      `${insideProjectPath}/src/components/Content/contentFromCLI.json`,
       JSON.stringify(content)
     );
 
