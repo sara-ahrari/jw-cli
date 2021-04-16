@@ -1,7 +1,8 @@
+import React, { ReactElement } from 'react';
 import logo from './assets/logo.svg';
 import './App.css';
 import Content from './components/Content/Content';
-import { ReactElement } from 'react';
+
 
 const App = (): ReactElement => {
   return (
