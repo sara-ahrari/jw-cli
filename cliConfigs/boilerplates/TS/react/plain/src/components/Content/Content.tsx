@@ -17,7 +17,7 @@ const Content = (): ReactElement => {
       {contentFromCLI.preCommits && (
         <p>* {contentFromCLI.preCommits} for pre-commit hooks.</p>
       )}
-      {contentFromCLI.styledComponents && <p>Styled-components for styling.</p>}
+      {contentFromCLI.styledComponents && <p>* Styled-components for styling.</p>}
       {contentFromCLI.documentation && (
         <p>* React DOC Generator for documentation.</p>
       )}

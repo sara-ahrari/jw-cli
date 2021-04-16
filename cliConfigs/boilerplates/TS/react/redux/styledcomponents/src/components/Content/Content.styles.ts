@@ -18,5 +18,5 @@ export const Title = styled.h4`
 
 export const Item = styled.p`
   color: black;
-  font-size: 70%;
+  font-size: 60%;
 `;
