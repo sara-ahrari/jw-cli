@@ -7,21 +7,20 @@ export const AppContainer = styled.div`
 export const Logo = styled.img`
   height: 10vmin;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 2%;
   align-self: flex-start;
 `;
 
 export const ExampleButton = styled.button`
   background-color: black;
-  opacity: 70%;
   border-radius: 50px;
   width: 20%;
   align-self: center;
   font-size: 65%;
-  margin-top: 1%;
   color: white;
   cursor: pointer;
   transition: all 0.15s;
+  padding: 6px;
 `;
 
 export const Header = styled.header`
@@ -35,7 +34,6 @@ export const Title = styled.div`
   border-radius: 50px;
   width: 60%;
   background-color: black;
-  margin-top: 2px;
   opacity: 70%;
   align-self: center;
 

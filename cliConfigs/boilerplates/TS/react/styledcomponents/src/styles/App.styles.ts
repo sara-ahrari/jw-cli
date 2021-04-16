@@ -7,7 +7,7 @@ export const AppContainer = styled.div`
 export const Logo = styled.img`
   height: 10vmin;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 2%;
   align-self: flex-start;
 `;
 
@@ -22,7 +22,6 @@ export const Title = styled.div`
   border-radius: 50px;
   width: 60%;
   background-color: black;
-  margin-top: 2px;
   opacity: 70%;
   align-self: center;
 
