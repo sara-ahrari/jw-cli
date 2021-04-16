@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 50%;
-    height: 50vmin;
+    height: 55vmin;
     background-color: white;
     opacity: 70%;
     border-radius: 50px;
@@ -12,7 +12,7 @@
   
   .container > p {
     color: black;
-    font-size: 70%;
+    font-size: 60%;
   }
   
   .container > h4 {

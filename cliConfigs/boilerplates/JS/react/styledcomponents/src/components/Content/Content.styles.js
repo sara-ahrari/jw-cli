@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 50vmin;
+  height: 55vmin;
   background-color: white;
   opacity: 70%;
   border-radius: 50px;
@@ -19,5 +19,5 @@ export const Title = styled.h4`
 
 export const Item = styled.p`
   color: black;
-  font-size: 70%;
+  font-size: 60%;
 `;

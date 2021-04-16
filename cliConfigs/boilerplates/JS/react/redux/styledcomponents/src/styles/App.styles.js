@@ -6,12 +6,10 @@ export const AppContainer = styled.div`
 
 export const ExampleButton = styled.button`
   background-color: black;
-  opacity: 70%;
   border-radius: 50px;
   width: 20%;
   align-self: center;
   font-size: 65%;
-  margin-top: 1%;
   color: white;
   cursor: pointer;
   transition: all 0.15s;
@@ -35,7 +33,6 @@ export const Title = styled.div`
   border-radius: 50px;
   width: 70%;
   background-color: black;
-  margin-top: 2%;
   opacity: 70%;
   align-self: center;
 
