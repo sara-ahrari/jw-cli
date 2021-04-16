@@ -22,7 +22,6 @@ export const Title = styled.div`
   border-radius: 50px;
   width: 70%;
   background-color: black;
-  margin-top: 2%;
   opacity: 70%;
   align-self: center;
   color: white;
@@ -35,7 +34,8 @@ export const LinkContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-self: center;
-  margin-top: 6vmin;
+  position: fixed; 
+  bottom: 2vmin;
   width: 70%;
   justify-content: space-evenly;
 `;
