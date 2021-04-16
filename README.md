@@ -15,22 +15,15 @@ A CLI to create new project templates
 # Usage
 <!-- usage -->
 ```sh-session
-$ npx jw-project-template-cli create-frontend
-running command...
-$ npx project-starterkit (-v|--version|version)
-jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
-$ npx project-starterkit --help [COMMAND]
-```
-
-or
-
-```sh-session
 $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.1 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
+USAGE
+  $ project-starterkit COMMAND
+...
 ```
 <!-- usagestop -->
 
@@ -41,7 +34,7 @@ $ project-starterkit --help [COMMAND]
 
 ## `project-starterkit create-frontend`
 
-This command sets up a new React project based on your input.
+This command sets up a project with your preferred packages and stuff
 
 ```
 USAGE
@@ -51,11 +44,11 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-cli/blob/v1.0.0/src/commands/create-frontend.ts)_
+_See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-cli/blob/v1.1.1/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 
-This commands displays help for a specified COMMAND. 
+display help for project-starterkit
 
 ```
 USAGE

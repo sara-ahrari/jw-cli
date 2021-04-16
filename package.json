@@ -1,7 +1,7 @@
 {
     "name": "jw-project-template-cli",
     "description": "A CLI to create new project tempelates ",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "Sara Ahrari & Tselmeg Baasan",
     "bin": {
         "project-starterkit": "./bin/run"
@@ -42,6 +42,7 @@
         "node": ">=8.5.0"
     },
     "files": [
+        "README.md",
         "/bin",
         "/lib",
         "/cliConfigs",
