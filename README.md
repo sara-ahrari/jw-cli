@@ -19,7 +19,7 @@ $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.1.1 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.2 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 USAGE
   $ project-starterkit COMMAND
@@ -44,7 +44,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-cli/blob/v1.1.1/src/commands/create-frontend.ts)_
+_See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-cli/blob/v1.1.2/src/commands/create-frontend.ts)_
 
 ## `project-starterkit help [COMMAND]`
 
