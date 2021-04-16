@@ -273,6 +273,7 @@ export default class CreateFrontend extends Command {
       insideProjectPath,
       false
     );
+    await executeShellCommand('npm install', insideProjectPath, false);
     cli.action.stop();
 
     console.log('Your project template was created successfully!');
