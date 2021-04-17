@@ -6,7 +6,7 @@ A CLI to create new project templates
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/jw-cli.svg)](https://npmjs.org/package/jw-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/jw-cli.svg)](https://npmjs.org/package/jw-cli)
-[![License](https://img.shields.io/npm/l/jw-cli.svg)](https://github.com/SaraAhrari/Jw-cli/blob/master/package.json)
+[![License](https://img.shields.io/npm/l/jw-cli.svg)](https://github.com/sara-ahrari/jw-cli/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
@@ -14,21 +14,32 @@ A CLI to create new project templates
 <!-- tocstop -->
 # Usage
 <!-- usage -->
+
+```sh-session
+$ npx jw-project-template-cli create-frontend
+running command...
+$ npx project-starterkit (-v|--version|version)
+jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
+$ npx project-starterkit --help [COMMAND]
+```
+
+or
+
 ```sh-session
 $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.1.3 win32-x64 node-v14.16.0
+jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
-USAGE
-  $ project-starterkit COMMAND
-...
 ```
+
 <!-- usagestop -->
 
 # Commands
 <!-- commands -->
+This command sets up a new react project based on your input.
+
 * [`project-starterkit create-frontend`](#project-starterkit-create-frontend)
 * [`project-starterkit help [COMMAND]`](#project-starterkit-help-command)
 

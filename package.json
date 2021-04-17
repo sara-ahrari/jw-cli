@@ -42,7 +42,6 @@
         "node": ">=8.5.0"
     },
     "files": [
-        "README.md",
         "/bin",
         "/lib",
         "/cliConfigs",
@@ -66,9 +65,9 @@
     "scripts": {
         "postpack": "rimraf oclif.manifest.json",
         "posttest": "eslint . --ext .ts --config .eslintrc",
-        "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+        "prepack": "rimraf lib && tsc -b && oclif-dev manifest",
         "test": "echo NO TESTS",
-        "version": "oclif-dev readme && git add README.md"
+        "version": "git add README.md"
     },
     "types": "lib/index.d.ts",
     "husky": {

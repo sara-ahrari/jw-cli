@@ -12,7 +12,7 @@ import cli from 'cli-ux';
 
 export default class CreateFrontend extends Command {
   static description =
-    'This command sets up a project with your preferred packages and stuff';
+    'This command sets up a new react project based on your input';
 
   static flags = {
     help: flags.help({ char: 'h' }),
