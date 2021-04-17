@@ -19,7 +19,7 @@ A CLI to create new project templates
 $ npx jw-project-template-cli create-frontend
 running command...
 $ npx project-starterkit (-v|--version|version)
-jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.5 win32-x64 node-v14.16.0
 $ npx project-starterkit --help [COMMAND]
 ```
 
@@ -30,7 +30,7 @@ $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.0.0 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.5 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 ```
 
@@ -38,14 +38,12 @@ $ project-starterkit --help [COMMAND]
 
 # Commands
 <!-- commands -->
-This command sets up a new react project based on your input.
-
 * [`project-starterkit create-frontend`](#project-starterkit-create-frontend)
 * [`project-starterkit help [COMMAND]`](#project-starterkit-help-command)
 
 ## `project-starterkit create-frontend`
 
-This command sets up a project with your preferred packages and stuff
+This command sets up a new react project based on your input.
 
 ```
 USAGE
@@ -59,7 +57,7 @@ _See code: [src/commands/create-frontend.ts](https://github.com/sara-ahrari/jw-c
 
 ## `project-starterkit help [COMMAND]`
 
-display help for project-starterkit
+Display help for project-starterkit
 
 ```
 USAGE
