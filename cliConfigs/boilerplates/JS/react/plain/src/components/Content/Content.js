@@ -1,8 +1,20 @@
 import React from 'react';
-import contentFromCLI from './contentFromCLI.json';
 import styles from './Content.module.css';
 
+/**
+ * General component description.
+ * You can even use the native Markdown here.
+ * E.g.:
+ * ```html
+ * <MyComponent foo={541} />
+ * ```
+ */
 const Content = () => {
+  /**
+      * Description of prop "contentFromCLI".
+      */
+  const contentFromCLI = require('./contentFromCLI.json'); 
+
   return (
     <div className={styles.container}>
       <h4>This is included in your project {contentFromCLI.projectName}:</h4>

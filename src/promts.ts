@@ -101,7 +101,7 @@ export const documentationConfiguration: any = async () => {
       type: 'confirm',
       name: 'includeDocumentation',
       message:
-        'Would you like to include React DOC Generator to your project(It generates simple React components documentation in Markdown)?',
+        'Would you like to include React DOC Generator for generating documentation to your project?',
     },
   ]);
 

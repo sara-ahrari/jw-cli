@@ -56,7 +56,7 @@ export const editJsonFile = async (
     const parsedJSON = JSON.parse(jsonData);
     parsedJSON[keys[i]] = JSON.parse(configData);
 
-    fs.writeFileSync(jsonPath, JSON.stringify(parsedJSON));
+    fs.writeFileSync(jsonPath, JSON.stringify(parsedJSON, null, 4));
   }
 };
 
