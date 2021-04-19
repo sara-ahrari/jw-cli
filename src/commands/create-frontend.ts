@@ -161,7 +161,7 @@ export default class CreateFrontend extends Command {
       cli.action.stop();
     }
 
-    //  --- HELPER METHODS ---
+    /// /  --- HELPER METHODS ---
     const initiateHooks = async (configLintStaged: string): Promise<void> => {
       cli.action.start('Setting up hooks.. ');
       const cmd = `npm install --save-dev lint-staged husky@4.3.8`;
