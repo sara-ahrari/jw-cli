@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Content.module.css';
+import contentFromCLI from './contentFromCLI.json';
 
 /**
  * General component description.
@@ -10,11 +11,6 @@ import styles from './Content.module.css';
  * ```
  */
 const Content = () => {
-  /**
-      * Description of prop "contentFromCLI".
-      */
-  const contentFromCLI = require('./contentFromCLI.json'); 
-
   return (
     <div className={styles.container}>
       <h4>This is included in your project {contentFromCLI.projectName}:</h4>

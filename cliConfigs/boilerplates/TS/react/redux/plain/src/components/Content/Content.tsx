@@ -2,6 +2,14 @@ import React, { ReactElement } from 'react';
 import contentFromCLI from './contentFromCLI.json';
 import styles from './Content.module.css';
 
+/**
+ * General component description.
+ * You can even use the native Markdown here.
+ * E.g.:
+ * ```html
+ * <MyComponent foo={541} />
+ * ```
+ */
 const Content = (): ReactElement => {
   return (
     <div className={styles.container}>
