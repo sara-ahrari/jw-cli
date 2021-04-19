@@ -77,8 +77,7 @@
         "hooks": {
             "pre-commit": "lint-staged"
         }
-    },
-    "lint-staged": {
+    },"lint-staged": {
         "*.{ts,tsx,js}": [
             "eslint --fix"
         ]
