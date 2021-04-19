@@ -230,7 +230,7 @@ export default class CreateFrontend extends Command {
       cli.action.stop();
     };
 
-    // --- SETUP METHODS ---
+    /// / --- SETUP METHODS ---
 
     const standardSetup = async (): Promise<void> => {
       const cmd = includeFormatting
