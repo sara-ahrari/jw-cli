@@ -11,7 +11,7 @@ export const Container = styled.div`
   align-self: center;
 `;
 
-export const Title = styled.h4`
+export const Title = styled.h5`
   text-decoration: underline;
   color: black;
 `;
