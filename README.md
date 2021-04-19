@@ -19,7 +19,7 @@ A CLI to create new project templates
 $ npx jw-project-template-cli create-frontend
 running command...
 $ npx project-starterkit (-v|--version|version)
-jw-project-template-cli/1.1.5 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.6 win32-x64 node-v14.16.0
 $ npx project-starterkit --help [COMMAND]
 ```
 
@@ -30,7 +30,7 @@ $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.1.5 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.6 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 ```
 
