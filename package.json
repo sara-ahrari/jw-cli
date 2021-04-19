@@ -1,7 +1,7 @@
 {
     "name": "@sara-ahrari/jw-cli",
     "description": "A CLI to create new project templates ",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "Sara Ahrari & Tselmeg Baasan",
     "bin": {
         "project-starterkit": "./bin/run"
