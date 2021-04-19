@@ -1,5 +1,5 @@
 {
-    "name": "@sara-ahrari/jw-project-template-cli",
+    "name": "@sara-ahrari/jw-cli",
     "description": "A CLI to create new project templates ",
     "version": "1.0.0",
     "author": "Sara Ahrari & Tselmeg Baasan",
