@@ -1,13 +1,13 @@
 {
-    "name": "@tselmegbaasan/jw-project-template-cli",
+    "name": "@sara-ahrari/jw-cli",
     "description": "A CLI to create new project templates ",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Sara Ahrari & Tselmeg Baasan",
     "bin": {
         "project-starterkit": "./bin/run"
     },
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@tselmegbaasan"
+        "registry": "https://npm.pkg.github.com/@sara-ahrari"
     },
     "bugs": "https://github.com/sara-ahrari/jw-cli/issues",
     "dependencies": {
