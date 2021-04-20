@@ -9,6 +9,7 @@ import contentFromCLI from './contentFromCLI.json';
  * ```html
  * <MyComponent foo={541} />
  * ```
+ * @returns {ReactElement}
  */
 const Content = () => {
   return (

@@ -267,13 +267,14 @@ export default class CreateFrontend extends Command {
 
     // Save changes and format code
     cli.action.start('Finishing touches...');
+    await executeShellCommand('npm install', insideProjectPath, false);
     await executeShellCommand('git add .', insideProjectPath, false);
     await executeShellCommand(
       'git commit -m "First commit"',
       insideProjectPath,
       false
     );
-    await executeShellCommand('npm install', insideProjectPath, false);
+
     cli.action.stop();
 
     console.log('Your project template was created successfully!');

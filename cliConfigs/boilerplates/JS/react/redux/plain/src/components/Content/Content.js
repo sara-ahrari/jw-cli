@@ -2,7 +2,6 @@ import React from 'react';
 import contentFromCLI from './contentFromCLI.json';
 import styles from './Content.module.css';
 
-
 /**
  * General component description.
  * You can even use the native Markdown here.
@@ -10,6 +9,7 @@ import styles from './Content.module.css';
  * ```html
  * <MyComponent foo={541} />
  * ```
+ * @returns {ReactElement}
  */
 const Content = () => {
   return (

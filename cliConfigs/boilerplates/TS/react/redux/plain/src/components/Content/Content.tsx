@@ -9,6 +9,7 @@ import styles from './Content.module.css';
  * ```html
  * <MyComponent foo={541} />
  * ```
+ * @returns {ReactElement}
  */
 const Content = (): ReactElement => {
   return (

@@ -9,6 +9,7 @@ import { Container, Title, Item } from './Content.styles';
  * ```html
  * <MyComponent foo={541} />
  * ```
+ * @returns {ReactElement}
  */
 const Content = (): ReactElement => {
   return (

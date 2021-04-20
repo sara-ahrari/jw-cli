@@ -7,6 +7,7 @@ parserOptions:
 env: 
   browser: true
   node: true
+  jest: true
 extends:
   # - standard, airbnb or google
   - plugin:react/recommended # must be included for react projects
@@ -18,4 +19,5 @@ rules:
   no-param-reassign: 
     - 2
     - props: false 
+  require-jsdoc: 0
 
