@@ -30,7 +30,7 @@ $ npm install -g jw-project-template-cli
 $ project-starterkit COMMAND
 running command...
 $ project-starterkit (-v|--version|version)
-jw-project-template-cli/1.1.7 win32-x64 node-v14.16.0
+jw-project-template-cli/1.1.8 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
 ```
 
