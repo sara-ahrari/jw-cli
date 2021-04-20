@@ -1,1 +1,4 @@
-/// <reference types="react-scripts" />
+// / <reference types="react-scripts" />
+declare module '*.gif';
+  declare module '*.svg';
+  
