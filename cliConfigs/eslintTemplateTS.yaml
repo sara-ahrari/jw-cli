@@ -7,6 +7,7 @@ parserOptions:
 env: 
   browser: true 
   node: true
+  jest: true
 plugins: 
   - react
 extends:
@@ -25,4 +26,8 @@ rules:
     - 2
     - props: false 
   no-use-before-define: 'off'
+  '@typescript-eslint/explicit-module-boundary-types': 'off'
+  '@typescript-eslint/explicit-function-return-type': 'off'
+  require-jsdoc: 0
+  
 
