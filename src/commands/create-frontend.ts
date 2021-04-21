@@ -268,12 +268,21 @@ export default class CreateFrontend extends Command {
     // Save changes and format code
     cli.action.start('Finishing touches...');
     await executeShellCommand('npm install', insideProjectPath, false);
-    await executeShellCommand('git add .', insideProjectPath, false);
-    await executeShellCommand(
-      'git commit -m "First commit"',
-      insideProjectPath,
-      false
-    );
+
+    if (includeGitHooks) {
+      await executeShellCommand('git add .', insideProjectPath, false);
+      await executeShellCommand(
+        'git commit -m "First commit"',
+        insideProjectPath,
+        false
+      );
+    } else if (includeLinting) {
+      const cmd = 'npx eslint --fix .';
+      await executeShellCommand(cmd, insideProjectPath, false);
+    } else if (includeFormatting) {
+      const cmd = 'npx prettier --write .';
+      await executeShellCommand(cmd, insideProjectPath, false);
+    }
 
     cli.action.stop();
 

@@ -27,8 +27,8 @@ or
 
 ```sh-session
 $ npm install -g jw-project-template-cli
-$ project-starterkit COMMAND
-running command...
+$ project-starterkit create-frontend
+running create-frontend command...
 $ project-starterkit (-v|--version|version)
 jw-project-template-cli/1.1.8 win32-x64 node-v14.16.0
 $ project-starterkit --help [COMMAND]
